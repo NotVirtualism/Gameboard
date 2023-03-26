@@ -1,0 +1,167 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+
+public class Student implements Comparator<Student>, Comparable<Student> {
+
+    private String data;
+    private String fname;
+    private String lname;
+    ArrayList<Integer> test = new ArrayList<Integer>(); //This creates an ArrayList of Integer values
+
+
+    /**
+     * This is the default constructor method with no parameters or return types.
+     * It simply sets the fields to their default values.
+      */
+    public Student()
+    {
+        fname = "unknown";
+        lname = "unknown";
+    }
+
+    /**
+     * This is another constructor method.
+     * This one contains parameters that correlate to the fields in the object.
+     * @param first correlates to the first name (fname) field in the object.
+     * @param last correlates to the last name (lname) field in the object.
+     * There are no return types
+     */
+    public Student(String first, String last)
+    {
+        fname = first;
+        lname = last;
+    }
+
+    public int compareTo(Student st)
+    {
+        return this.lname.compareTo(st.lname);
+    }
+
+    public int compare(Student s1, Student s2)
+    {
+        if (s1.getAverage() == s2.getAverage())
+        {
+            return 0;
+        }
+        else if (s1.getAverage() > s2.getAverage())
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    /**
+     * This method goes in and substrings the first and lastname out and
+     * saves the names into a Student object.
+     * @param info is the String line passed from the Scanner (contains names and test grades).
+     * @return the String of the remaining test values.
+     */
+    public String sortName(String info)
+    {
+        String tempstring = "";
+        int space = info.indexOf(' ');
+        fname = info.substring(0, space);
+
+        tempstring = info.substring(space + 1);
+        space = tempstring.indexOf(' ');
+        lname = tempstring.substring(0, space);
+
+        tempstring = tempstring.substring(space + 1);
+
+        return tempstring;
+    }
+
+    /**
+     * This method is a set method that sets the first name of the object.
+     * @param first correlates to the first name (fname) field in the object.
+     * There are no return types
+     */
+    public void setFirstName(String first)
+    {
+        fname = first;
+    }
+
+    /**
+     * This method is a set method that sets the last name of the object.
+     * @param last correlates to the last name (lname) field in the object.
+     * There are no return types
+     */
+    public void setLastName(String last)
+    {
+        lname = last;
+    }
+
+
+    /**
+     * This method is a get method that takes the first and last name of an object
+     * and returns it as a concatenated String.
+     * There are no parameters.
+     * @return a concatenated String of lname (last name) and fname (first name).
+     */
+    public String getFullName()
+    {
+        return lname + ", " + fname;
+    }
+
+    /**
+     * This method simply adds a new integer test value to the list of test values
+     * @param testVal is the integer passed through and is added to the list
+     * There are no return values
+     */
+    public void addTest(int testVal)
+    {
+        test.add(testVal);
+    }
+
+    /**
+     * This method simply retrieves the size of the array
+     * There are no parameters.
+     * @return it returns the size of the array as an int
+     */
+    public int getTestCount()
+    {
+        return test.size();
+    }
+
+    /**
+     * This is a get method that takes all of the test values of an object
+     * and returns the average of them as a double.
+     * There are no parameters.
+     * @return average, which the is average value of all the int test values in the form of a double.
+     */
+    public double getAverage()
+    {
+        double sum = 0.0;
+        double average = 0.0;
+
+        for (int i = 0; i < test.size(); i++)
+        {
+            sum = sum + test.get(i);
+        }
+
+        average = sum / test.size();
+        average = round(average, 1);
+
+        return average;
+    }
+
+    /**
+     * This small method rounds the precision of all the grades to one decimal point
+     * @param value taken in is a double value taken from the getAverage() method
+     * @param precision is to what decimal point that the value is being rounded to
+     * @return the rounded value as a 1 decimal point double
+     */
+    private static double round (double value, int precision)
+    {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
+    }
+
+
+
+
+}
