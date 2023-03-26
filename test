@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
-
+//this is my edit Blair
 public class Student implements Comparator<Student>, Comparable<Student> {
 
     private String data;
