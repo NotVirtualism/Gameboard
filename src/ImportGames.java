@@ -64,74 +64,43 @@ public class ImportGames {
      */
     private Game parseNextGame(Node xmlGameNode){
         String id;
-        Integer rank = 0;
         String title = "empt";
         String thumbUrl = "empt";
         String imageUrl = "empt";
         String desc = "empt";
         Integer year = 0;
         NamedNodeMap attributes = xmlGameNode.getAttributes();
-
         id = attributes.getNamedItem("id").getNodeValue();
-        try {
-            rank = Integer.parseInt(attributes.getNamedItem("rank").getNodeValue());
-        } catch (NumberFormatException e) {
-            rank = 0;  // using a default value if the data in the file is bad
-        } catch (NullPointerException e) {
-            rank = 0;
-        }
-
+        /*
         title = parseTextField(xmlGameNode, "name");
         thumbUrl = attributes.getNamedItem("thumbnail").getNodeValue();
         imageUrl = parseTextField(xmlGameNode, "image");
         desc = parseTextField(xmlGameNode, "description");
         year = parseIntegerField(xmlGameNode, "yearpublished");
-        return new Game(title, thumbUrl, imageUrl, desc, year, rank, id);
+        */
+        NodeList subNodes = xmlGameNode.getChildNodes();
+        return new Game(title, thumbUrl, imageUrl, desc, year, 0, id);
     }
 
-    /**
-     * Some data is stored as child elements in the XML
-     * Given a gameNode, extracts the given field from the child nodes as an Integer.
-     * @param xmlGameNode - a game node from the DOM
-     * @param fieldname - the field we are looking to extract
-     * @return - the value of the field we are extracting, or "unknown" if no such value exists
-     */
-    private String parseTextField(Node xmlGameNode, String fieldname) {
-        NodeList fields = xmlGameNode.getChildNodes();
-        String fieldText = "unknown";
-        for (int i = 0; i < fields.getLength(); i++) {
-            Node field = fields.item(i);
-            if (field.getNodeName().equals(fieldname)) {
-                NamedNodeMap attributes = field.getAttributes();
-                if(attributes.getNamedItem("value").getNodeValue() != null)
-                    fieldText = attributes.getNamedItem("value").getNodeValue();
+    private String getNodeText(NodeList n, String nodeName){
+        Node current;
+        for(int i = 0; i < n.getLength(); i++){
+            current = n.item(i);
+            if(current.getNodeName().equals(nodeName))
+                return current.getTextContent();
+        }
+        return "does not exist.";
+    }
+
+    private String getNodeAttribute(NodeList n, String nodeName, String att){
+        Node current;
+        for(int i = 0; i < n.getLength(); i++){
+            current = n.item(i);
+            if(current.getNodeName().equals(nodeName)){
+                NamedNodeMap attributes = current.getAttributes();
+                return attributes.getNamedItem(att).getNodeValue();
             }
         }
-        return fieldText;
+        return "does not exist.";
     }
-
-    /**
-     * Some data is stored as child elements in the XML
-     * Given a gameNode, extracts the given field from the child nodes as an Integer.
-     * @param xmlGameNode - a game node from the DOM
-     * @param fieldname - the field we are looking to extract
-     * @return - the value of the field we are extracting, or "unknown" if no such value exists
-     */
-    private Integer parseIntegerField(Node xmlGameNode, String fieldname) {
-        NodeList fields = xmlGameNode.getChildNodes();
-        Integer fieldValue = 0;
-        for (int i = 0; i < fields.getLength(); i++) {
-            Node field = fields.item(i);
-            if (field.getNodeName().equals(fieldname)) {
-                NamedNodeMap attributes = field.getAttributes();
-                try {
-                    fieldValue = Integer.parseInt(attributes.getNamedItem("value").getNodeValue());
-                } catch (NumberFormatException e) {
-                    fieldValue = 0;  // default if an exception is thrown.
-                }
-            }
-        }
-        return fieldValue;
-    }
-
 }
