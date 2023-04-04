@@ -77,10 +77,12 @@ public class ImportGames {
             rank = Integer.parseInt(attributes.getNamedItem("rank").getNodeValue());
         } catch (NumberFormatException e) {
             rank = 0;  // using a default value if the data in the file is bad
+        } catch (NullPointerException e) {
+            rank = 0;
         }
 
         title = parseTextField(xmlGameNode, "name");
-        thumbUrl = parseTextField(xmlGameNode, "thumbnail");
+        thumbUrl = attributes.getNamedItem("thumbnail").getNodeValue();
         imageUrl = parseTextField(xmlGameNode, "image");
         desc = parseTextField(xmlGameNode, "description");
         year = parseIntegerField(xmlGameNode, "yearpublished");
@@ -101,7 +103,8 @@ public class ImportGames {
             Node field = fields.item(i);
             if (field.getNodeName().equals(fieldname)) {
                 NamedNodeMap attributes = field.getAttributes();
-                fieldText = attributes.getNamedItem("value").getNodeValue();
+                if(attributes.getNamedItem("value").getNodeValue() != null)
+                    fieldText = attributes.getNamedItem("value").getNodeValue();
             }
         }
         return fieldText;
