@@ -20,6 +20,6 @@ public class Game {
     }
 
     public String toString() {
-        return "[" + title + ", "+ publicationYear + ", BGG Rank: " + rank + ", BGG ID: " + id + "]";
+        return "[" + title + ", "+ pubYear + ", BGG Rank: " + rank + ", BGG ID: " + id + "]";
     }
 }

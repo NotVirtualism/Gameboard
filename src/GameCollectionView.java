@@ -16,7 +16,7 @@ public class GameCollectionView {
         return n;
     }
 
-
+  /*
     public static void main(String[] args) {
 
         view();
@@ -26,14 +26,12 @@ public class GameCollectionView {
 
     public static void view() {
         GameCollection gameList1 = new GameCollection("gameList1");
-
         gameList1.list.add(new Game("Game1")); //Test Values to work through the view
         gameList1.list.add(new Game("Game2"));
         gameList1.list.add(new Game("Game3"));
         gameList1.list.add(new Game("Game4"));
         gameList1.list.add(new Game("Game5"));
         gameList1.list.add(new Game("Game6"));
-
         JFrame f = new JFrame("Game Collection"); //creating instance of JButton
 
         final JLabel tt = new JLabel();
@@ -74,7 +72,7 @@ public class GameCollectionView {
         f.setLayout(null);
         f.setVisible(true);
     }
-
+    */
 
 }
 
