@@ -1,25 +1,32 @@
 import javax.swing.*;
 import java.awt.*;
 
+
 public class HomeView {
     public static void homeView(){
 
-          //Buttons and Text Fields
+        //Buttons and Text Fields
 
 
         JButton signInButton = new JButton("Sign In");
+        JButton createAccountButton = new JButton("Create Account");
         JButton homeButton = new JButton("GAMEBOARD");
         JTextField usernameField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
+        JTextField failedLoginMessage = new JTextField("Information Entered is Incorrect or the Account Does Not Exist");
+        JTextField accountDuplicateMessage = new JTextField("Username is Taken");
+        JTextField accountInformationInvalid = new JTextField("The Entered Username or Password Cannot Have Spaces");
+        JTextField usernameText = new JTextField("Username:");
+        JTextField passwordText = new JTextField("Password:");
 
 
-          //HomeBar
+        //HomeBar
 
         JPanel homeBar = new JPanel();
         homeBar.setLayout(new GridBagLayout());
         GridBagConstraints homeBarRestraints = new GridBagConstraints();
 
-             //HomeButton Formatting
+        //HomeButton Formatting
 
         homeBarRestraints.fill = homeBarRestraints.HORIZONTAL;
         homeBarRestraints.ipady = 80;
@@ -30,80 +37,133 @@ public class HomeView {
         homeBarRestraints.gridy = 0;
         homeBar.add(homeButton, homeBarRestraints);
 
-          //Username Field Formatting
-
+        //Username Text Formatting
+        usernameText.setEditable(false);
         homeBarRestraints.ipady = 40;
-        homeBarRestraints.weightx = 0.2;
+        homeBarRestraints.weightx = 0.005;
         homeBarRestraints.gridwidth = 1;
         homeBarRestraints.gridheight = 1;
         homeBarRestraints.gridx = 3;
         homeBarRestraints.gridy = 0;
-        homeBar.add(usernameField, homeBarRestraints);
+        homeBar.add(usernameText, homeBarRestraints);
 
-          //Password Field Formatting
-
+        //Password Text Formatting
+        passwordText.setEditable(false);
         homeBarRestraints.ipady = 40;
-        homeBarRestraints.weightx = 0.2;
+        homeBarRestraints.weightx = 0.005;
         homeBarRestraints.gridwidth = 1;
         homeBarRestraints.gridheight = 1;
         homeBarRestraints.gridx = 3;
         homeBarRestraints.gridy = 1;
+        homeBar.add(passwordText, homeBarRestraints);
+
+        //Username Field Formatting
+
+        homeBarRestraints.ipady = 40;
+        homeBarRestraints.weightx = 0.2;
+        homeBarRestraints.gridwidth = 1;
+        homeBarRestraints.gridheight = 1;
+        homeBarRestraints.gridx = 4;
+        homeBarRestraints.gridy = 0;
+        homeBar.add(usernameField, homeBarRestraints);
+
+        //Password Field Formatting
+
+        homeBarRestraints.ipady = 40;
+        homeBarRestraints.weightx = 0.2;
+        homeBarRestraints.gridwidth = 1;
+        homeBarRestraints.gridheight = 1;
+        homeBarRestraints.gridx = 4;
+        homeBarRestraints.gridy = 1;
         homeBar.add(passwordField, homeBarRestraints);
 
-          //Sign In Button Formatting
+        //Sign In Button Formatting
 
         homeBarRestraints.ipady = 40;
         homeBarRestraints.gridwidth = 1;
-        homeBarRestraints.gridheight = 2;
+        homeBarRestraints.gridheight = 1;
         homeBarRestraints.weightx = 0.05;
-        homeBarRestraints.gridx = 4;
+        homeBarRestraints.gridx = 5;
         homeBarRestraints.gridy = 0;
         homeBar.add(signInButton, homeBarRestraints);
 
+        //Create Account Button Formatting
+
+        homeBarRestraints.ipady = 40;
+        homeBarRestraints.gridwidth = 1;
+        homeBarRestraints.gridheight = 1;
+        homeBarRestraints.weightx = 0.05;
+        homeBarRestraints.gridx = 5;
+        homeBarRestraints.gridy = 1;
+        homeBar.add(createAccountButton, homeBarRestraints);
+
+        //Login Related Error Messages
+        failedLoginMessage.setEditable(false);
+        accountDuplicateMessage.setEditable(false);
+        accountInformationInvalid.setEditable(false);
+        failedLoginMessage.setVisible(false);
+        accountDuplicateMessage.setVisible(false);
+        accountInformationInvalid.setVisible(false);
+        homeBarRestraints.ipady = 40;
+        homeBarRestraints.weightx = 0.2;
+        homeBarRestraints.gridwidth = 1;
+        homeBarRestraints.gridheight = 1;
+        homeBarRestraints.gridx = 4;
+        homeBarRestraints.gridy = 3;
+        homeBar.add(failedLoginMessage, homeBarRestraints);
+        homeBar.add(accountInformationInvalid, homeBarRestraints);
+        homeBar.add(accountDuplicateMessage, homeBarRestraints);
 
 
-          //HomeTabbedWindow
+        //HomeTabbedWindow
 
         JTabbedPane homeTabbedWindow = new JTabbedPane();
 
-          //Recommended Games Tab
+        //Recommended Games Tab
 
         JPanel recGamesTab = new JPanel();
         homeTabbedWindow.add("Recommended Games", recGamesTab);
+        recGamesTab.setVisible(false);
 
-
-          //Search Tab
+        //Search Tab
 
         JPanel searchTab = new JPanel();
         homeTabbedWindow.add("Search",searchTab);
 
 
-          //Game Tab
+        //Game Tab
 
         JPanel gameTab = new JPanel();
         homeTabbedWindow.add("Game", gameTab);
 
 
-          //Library Tab
+        //Library Tab
 
         JPanel libraryTab = new JPanel();
         homeTabbedWindow.add("Your Library",libraryTab);
 
 
-          //Your Reviews Tab
+        //Your Reviews Tab
 
         JPanel reviewTab = new JPanel();
         homeTabbedWindow.add("Your Reviews",reviewTab);
 
 
-          //The Entire Frame
+        //The Entire Frame
 
         JFrame homeFrame = new JFrame();
         homeFrame.setBounds(0,0,1920,1080);
         homeFrame.add(homeBar, BorderLayout.NORTH);
         homeFrame.add(homeTabbedWindow, BorderLayout.CENTER);
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        homeFrame.pack();
         homeFrame.setVisible(true);
+
+
     }
+
+
+    public static void main(String[] args) {
+        homeView();
+    }
+
 }
