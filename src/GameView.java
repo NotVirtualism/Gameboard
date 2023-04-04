@@ -4,6 +4,8 @@ import java.awt.*;
 public class GameView {
     public static void gameView() {
 
+        Game game = new Game("title", "description", "thumbnailUrl", "imageUrl", 0, 0, "id");
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
@@ -15,7 +17,7 @@ public class GameView {
 
         // Game Name
 
-        String gameNameHolder = "This will hold the game's name";
+        String gameNameHolder = game.getTitle();
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
@@ -28,7 +30,7 @@ public class GameView {
 
         // Game Picture
 
-        String gamePictureHolder = "This will hold the game's picture";
+        String gamePictureHolder = game.getImageUrl();
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
@@ -41,16 +43,16 @@ public class GameView {
 
         // Game Rating
 
-        String gameRatingHolder = "This will hold the game's rating";
+        String gameRankHolder = String.valueOf(game.getRank());
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridwidth = 1;
         c.gridy = 2;
 
-        JLabel gameRatingLabel = new JLabel(gameRatingHolder);
-        panel.add(gameRatingLabel, c);
-        gameRatingLabel.setBorder(new LineBorder(Color.black));
+        JLabel gameRankLabel = new JLabel(gameRankHolder);
+        panel.add(gameRankLabel, c);
+        gameRankLabel.setBorder(new LineBorder(Color.black));
 
         // Game Stats
 
@@ -58,10 +60,11 @@ public class GameView {
         String timeHolder = "This will hold the time";
         String ageHolder = "This will hold the age";
         String weightHolder = "This will hold the weight";
+        Integer pubYearHolder = game.getPubYear();
 
         String gameStatsHolder = "<html>Number of Players: " + numberOfPlayersHolder + "<br/>" +
                 "Time: " + timeHolder + "<br/>" + "Age: " + ageHolder + "<br/>" + "Weight: " +
-                weightHolder;
+                weightHolder + "<br/>" + "Publication Year: " + pubYearHolder;
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
@@ -84,7 +87,7 @@ public class GameView {
 
         // Game Description
 
-        String gameDescriptionHolder = "This will hold the game's description";
+        String gameDescriptionHolder = game.getDescription();
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
@@ -104,7 +107,4 @@ public class GameView {
         gameFrame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        gameView();
-    }
 }
