@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Library {
+public class LibraryView {
 
     public static int nums = 0;
     public static int xnums = 100;
