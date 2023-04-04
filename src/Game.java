@@ -16,10 +16,66 @@ public class Game {
         thumbnailUrl = tnUrl;
         imageUrl = iUrl;
         pubYear = pYear;
+        rank = r;
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String t) {
+        title = t;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String tnUrl) {
+        thumbnailUrl = tnUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String iUrl) {
+        imageUrl = iUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String desc) {
+        description = desc;
+    }
+
+    public Integer getPubYear() {
+        return pubYear;
+    }
+
+    public void setPubYear(Integer pYear) {
+        pubYear = pYear;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer r) {
+        rank = r;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     public String toString() {
-        return "[" + title + ", "+ publicationYear + ", BGG Rank: " + rank + ", BGG ID: " + id + "]";
+        return "[" + title + ", "+ pubYear + ", BGG Rank: " + rank + ", BGG ID: " + id + "]";
     }
 }
