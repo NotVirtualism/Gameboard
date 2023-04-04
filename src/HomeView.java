@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class MainView {
+public class HomeView {
     public static void homeView(){
 
           //Buttons and Text Fields
@@ -105,8 +105,5 @@ public class MainView {
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         homeFrame.pack();
         homeFrame.setVisible(true);
-    }
-    public static void main(String[] args) {
-        homeView();
     }
 }

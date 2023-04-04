@@ -1,9 +1,9 @@
+import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ImportGames {
     private Document  xmlDocumentTree;  // this is the object tree parsed from the given XML File
@@ -41,7 +41,7 @@ public class ImportGames {
      * @return a GameCollection object holding all found Game objects, in order of when they were found.
      */
     public GameCollection retrieveGameList() {
-        if (currentGameList = null){
+        if (currentGameList == null){
             currentGameList = new GameCollection("master");
 
             Element items = xmlDocumentTree.getDocumentElement();
@@ -83,7 +83,7 @@ public class ImportGames {
         thumbUrl = parseTextField(xmlGameNode, "thumbnail");
         imageUrl = parseTextField(xmlGameNode, "image");
         desc = parseTextField(xmlGameNode, "description");
-        year = parseIntField(xmlGameNode, "yearpublished");
+        year = parseIntegerField(xmlGameNode, "yearpublished");
         return new Game(title, thumbUrl, imageUrl, desc, year, rank, id);
     }
 
