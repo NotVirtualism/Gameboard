@@ -10,13 +10,12 @@ public class Game {
     private Integer rank;
     private String id;
 
-    public Game(String t, String tnUrl, String iUrl, String desc, Integer pYear, Integer r, String id){
+    public Game(String t, String tnUrl, String iUrl, String desc, Integer pYear, String id){
         title = t;
         description = desc;
         thumbnailUrl = tnUrl;
         imageUrl = iUrl;
         pubYear = pYear;
-        rank = r;
         this.id = id;
     }
 
@@ -40,15 +39,11 @@ public class Game {
         return pubYear;
     }
 
-    public Integer getRank() {
-        return rank;
-    }
-
     public String getId() {
         return id;
     }
 
     public String toString() {
-        return "[" + title + ", "+ pubYear + ", BGG Rank: " + rank + ", BGG ID: " + id + "]";
+        return "[" + title + ", "+ pubYear + ", BGG ID: " + id + "]";
     }
 }

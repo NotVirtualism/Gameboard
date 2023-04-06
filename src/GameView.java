@@ -4,7 +4,7 @@ import java.awt.*;
 public class GameView {
     public static void gameView() {
 
-        Game game = new Game("title", "description", "thumbnailUrl", "imageUrl", 0, 0, "id");
+        Game game = new Game("title", "description", "thumbnailUrl", "imageUrl", 0, "id");
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = screenSize.width;
@@ -41,8 +41,8 @@ public class GameView {
         panel.add(gamePictureLabel, c);
         gamePictureLabel.setBorder(new LineBorder(Color.black));
 
-        // Game Rating
-
+        // Game Rating - UPDATE: Likely dropping using rank - Logan
+        /*
         String gameRankHolder = String.valueOf(game.getRank());
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -53,6 +53,7 @@ public class GameView {
         JLabel gameRankLabel = new JLabel(gameRankHolder);
         panel.add(gameRankLabel, c);
         gameRankLabel.setBorder(new LineBorder(Color.black));
+        */
 
         // Game Stats
 

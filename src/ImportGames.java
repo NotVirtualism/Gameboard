@@ -71,17 +71,21 @@ public class ImportGames {
         Integer year = 0;
         NamedNodeMap attributes = xmlGameNode.getAttributes();
         id = attributes.getNamedItem("id").getNodeValue();
-        /*
-        title = parseTextField(xmlGameNode, "name");
-        thumbUrl = attributes.getNamedItem("thumbnail").getNodeValue();
-        imageUrl = parseTextField(xmlGameNode, "image");
-        desc = parseTextField(xmlGameNode, "description");
-        year = parseIntegerField(xmlGameNode, "yearpublished");
-        */
         NodeList subNodes = xmlGameNode.getChildNodes();
-        return new Game(title, thumbUrl, imageUrl, desc, year, 0, id);
+        title = getNodeAttribute(subNodes, "name", "value");
+        thumbUrl = getNodeText(subNodes, "thumbnail");
+        imageUrl = getNodeText(subNodes, "image");
+        desc = getNodeText(subNodes, "desc");
+        year = Integer.parseInt(getNodeAttribute(subNodes, "yearpublished", "value"));
+        return new Game(title, thumbUrl, imageUrl, desc, year, id);
     }
 
+    /**
+     * Returns the string in between the opening and closing tags of the specified node in a given NodeList (<>$*@%$</>).
+     * @param n - NodeList to search for the specified node in.
+     * @param nodeName - Name of the node to search for.
+     * @return the node's text content as a String or a default if not found/does not exist.
+     */
     private String getNodeText(NodeList n, String nodeName){
         Node current;
         for(int i = 0; i < n.getLength(); i++){
@@ -92,6 +96,13 @@ public class ImportGames {
         return "does not exist.";
     }
 
+    /**
+     * Returns the contents of a specified attribute of a specified node in a given NodeList.
+     * @param n - The NodeList to look for the node in
+     * @param nodeName - The name of the node to search 'n' for
+     * @param att - The name of the attribute to search the node for
+     * @return The value of the attribute as a String, or a default if it is not found/does not exist.
+     */
     private String getNodeAttribute(NodeList n, String nodeName, String att){
         Node current;
         for(int i = 0; i < n.getLength(); i++){

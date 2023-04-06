@@ -7,6 +7,7 @@ public class ImportTest {
           try {
               ImportGames importer = new ImportGames(inputFile);
               GameCollection master = importer.retrieveGameList();
+              System.out.println(master.size() + " games read in.");
           } catch (FileNotFoundException e1) {
               System.err.println("Unable to open file: " + inputFile);
               System.err.println("Exiting program.");

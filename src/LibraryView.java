@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class LibraryView {
-
+/* - :)
     public static int nums = 0;
     public static int xnums = 100;
     public static boolean checked = false;
@@ -152,5 +152,5 @@ public class LibraryView {
 
         return gamecBar;
     }
-
+*/
 }
