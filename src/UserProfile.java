@@ -4,7 +4,6 @@ public class UserProfile {
     private String userName;
     private String password;
     ArrayList<Review> userReviews = new ArrayList<>();
-    private int reviewCount = 0;
 
     private Library userLibrary = new Library();
 
@@ -34,9 +33,8 @@ public class UserProfile {
         return password;
     }
 
-    public void addReview(Review review){
-        userReviews.add(review);
-        reviewCount++;
+    public ArrayList<Review> getReviews(){
+        return userReviews;
     }
 
     public Review getReview(){
@@ -46,6 +44,5 @@ public class UserProfile {
     public Library getLibrary(Library library){
         return library;
     }
-
 
 }
