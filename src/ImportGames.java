@@ -49,7 +49,7 @@ public class ImportGames {
 
             for(int i = 0; i < xmlGameList.getLength(); i++){
                 Node game = xmlGameList.item(i);
-                currentGameList.addGame(parseNextGame(game));
+                loadNextGame(game);
             }
         }
 
@@ -60,15 +60,16 @@ public class ImportGames {
      * Every game in the XML is a child node of a larger item.
      * Parses a given node for all relevant data to instantiate a Game object.
      * @param xmlGameNode - the node being parsed
-     * @return a newly instantiated Game object given the results of the parse.
      */
-    private Game parseNextGame(Node xmlGameNode){
+    private void loadNextGame(Node xmlGameNode){
         String id;
         String title = "empt";
         String thumbUrl = "empt";
         String imageUrl = "empt";
         String desc = "empt";
-        Integer year = 0;
+        String dataLine;
+        Integer year = 0, minPlayers = 0, maxPlayers = 0, minPlayTime = 0, maxPlayTime = 0;
+
         NamedNodeMap attributes = xmlGameNode.getAttributes();
         id = attributes.getNamedItem("id").getNodeValue();
         NodeList subNodes = xmlGameNode.getChildNodes();
@@ -77,7 +78,37 @@ public class ImportGames {
         imageUrl = getNodeText(subNodes, "image");
         desc = getNodeText(subNodes, "desc");
         year = Integer.parseInt(getNodeAttribute(subNodes, "yearpublished", "value"));
-        return new Game(title, thumbUrl, imageUrl, desc, year, id);
+
+        minPlayers = Integer.parseInt(getNodeAttribute(subNodes, "minplayers", "value"));
+        maxPlayers = Integer.parseInt(getNodeAttribute(subNodes, "maxplayers", "value"));
+        minPlayTime = Integer.parseInt(getNodeAttribute(subNodes, "minplaytime", "value"));
+        maxPlayTime = Integer.parseInt(getNodeAttribute(subNodes, "maxplaytime", "value"));
+
+        Game loadedGame = new Game(title, thumbUrl, imageUrl, desc, year, id, minPlayers, maxPlayers, minPlayTime, maxPlayTime);
+
+        //adding Game tags, authors, and publishers here because repeated Node names
+        Node current;
+        for(int i = 0; i < subNodes.getLength(); i++){
+            current = subNodes.item(i);
+            if(current.getNodeName().equals("link")){
+                dataLine = current.getAttributes().getNamedItem("value").getNodeValue();
+                switch(current.getAttributes().getNamedItem("type").getNodeValue()){
+                    case "boardgamecategory":
+                        loadedGame.addTag(dataLine);
+                        break;
+                    case "boardgamedesigner":
+                        loadedGame.addAuthor(dataLine);
+                        break;
+                    case "boardgamepublisher":
+                        loadedGame.addPublisher(dataLine);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        currentGameList.addGame(loadedGame);
     }
 
     /**

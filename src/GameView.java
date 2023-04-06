@@ -4,7 +4,7 @@ import java.awt.*;
 public class GameView {
     public static void gameView() {
 
-        Game game = new Game("title", "description", "thumbnailUrl", "imageUrl", 0, "id");
+        Game game = new Game("title", "description", "thumbnailUrl", "imageUrl", 0, "id", 0, 0, 0, 0);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = screenSize.width;
