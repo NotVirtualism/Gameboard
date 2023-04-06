@@ -37,10 +37,6 @@ public class UserProfile {
         return userReviews;
     }
 
-    public Review getReview(){
-       return userReviews.get(reviewCount-1);
-    }
-
     public Library getLibrary(Library library){
         return library;
     }
