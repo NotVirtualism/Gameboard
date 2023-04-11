@@ -1,8 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Scanner;
 
 
 public class HomeView {
+
     public static void homeView(){
 
         //Buttons and Text Fields
@@ -16,8 +20,8 @@ public class HomeView {
         JTextField failedLoginMessage = new JTextField("Information Entered is Incorrect or the Account Does Not Exist");
         JTextField accountDuplicateMessage = new JTextField("Username is Taken");
         JTextField accountInformationInvalid = new JTextField("The Entered Username or Password Cannot Have Spaces");
-        JTextField usernameText = new JTextField("Username:");
-        JTextField passwordText = new JTextField("Password:");
+        JLabel usernameText = new JLabel("Username:");
+        JLabel passwordText = new JLabel("Password:");
 
 
         //HomeBar
@@ -38,7 +42,6 @@ public class HomeView {
         homeBar.add(homeButton, homeBarRestraints);
 
         //Username Text Formatting
-        usernameText.setEditable(false);
         homeBarRestraints.ipady = 40;
         homeBarRestraints.weightx = 0.005;
         homeBarRestraints.gridwidth = 1;
@@ -48,7 +51,6 @@ public class HomeView {
         homeBar.add(usernameText, homeBarRestraints);
 
         //Password Text Formatting
-        passwordText.setEditable(false);
         homeBarRestraints.ipady = 40;
         homeBarRestraints.weightx = 0.005;
         homeBarRestraints.gridwidth = 1;
@@ -123,7 +125,6 @@ public class HomeView {
 
         JPanel recGamesTab = new JPanel();
         homeTabbedWindow.add("Recommended Games", recGamesTab);
-        recGamesTab.setVisible(false);
 
         //Search Tab
 
@@ -157,6 +158,31 @@ public class HomeView {
         homeFrame.add(homeTabbedWindow, BorderLayout.CENTER);
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         homeFrame.setVisible(true);
+
+        //Sign In Button Handling
+        signInButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String usernameInput;
+                String passwordInput;
+                usernameInput = usernameField.getText();
+                passwordInput = passwordField.getText();
+                //UserProfile.logIn(usernameInput, passwordInput);
+            }
+        });
+
+
+        createAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String usernameInput;
+                String passwordInput;
+                usernameInput = usernameField.getText();
+                passwordInput = passwordField.getText();
+                UserProfile registeredUser = new UserProfile(usernameInput, passwordInput);
+
+            }
+        });
 
 
     }
