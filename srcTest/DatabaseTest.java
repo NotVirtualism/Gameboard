@@ -1,13 +1,17 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class ImportTest {
+public class DatabaseTest {
       public static void main(String args[]) {
           String inputFile = "bgg90Games.xml";
           try {
-              ImportGames importer = new ImportGames(inputFile);
-              GameCollection master = importer.retrieveGameList();
+              GameDatabase mainGDB = new GameDatabase(inputFile);
+              GameCollection master = mainGDB.getMasterList();
               System.out.println(master.size() + " games read in.");
+              System.out.println("Tag list: \n");
+              for(String s : mainGDB.getTags()){
+                  System.out.println(s);
+              }
           } catch (FileNotFoundException e1) {
               System.err.println("Unable to open file: " + inputFile);
               System.err.println("Exiting program.");
