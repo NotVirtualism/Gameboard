@@ -40,6 +40,10 @@ public class GameCollection {
         return list.get(gameIndex);
     }
 
+    public Game getGameByIndex(int i){
+        return list.get(i);
+    }
+
     public int size(){
         return list.size();
     }

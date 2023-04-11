@@ -66,6 +66,10 @@ public class Game {
         return id;
     }
 
+    public ArrayList<String> getTags(){
+        return tags;
+    }
+
     public String toString() {
         return "[" + title + ", "+ pubYear + ", BGG ID: " + id + "]";
     }
