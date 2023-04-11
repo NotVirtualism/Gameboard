@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
-
+/*
 public class Search extends GameDatabase{
 
     ArrayList<String> selectedTags = new ArrayList<String>();
@@ -26,4 +26,4 @@ public class Search extends GameDatabase{
     }
 
 }
-
+*/
