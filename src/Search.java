@@ -1,29 +1,60 @@
 import java.io.*;
 import java.util.ArrayList;
-/*
-public class Search extends GameDatabase{
+
+public class Search {
 
     ArrayList<String> selectedTags = new ArrayList<String>();
-    private GameCollection results;
+    private GameCollection results = new GameCollection("Results");
     private String searchString;
-    public Search(String text)
+    private GameCollection searchPool;
+    public Search(String text, ArrayList<String> tags, GameCollection pool)
     {
-        searchString = text;
-        selectedTags = new ArrayList<String>();
+        searchString = text; // Se
+        selectedTags = new ArrayList<String>(); //list of tags
+        searchPool = pool;
     }
 
-    void setTags(ArrayList<String> selectedTags)
+
+    public GameCollection search()
     {
-        int listind = 0;
-        int gameIndex = -1;
-        String multTags[] = {};
-        for (String items : selectedTags) {
-            multTags[listind] = selectedTags.get(listind);
-            listind++;
+        for (int i = 0; i < searchPool.size(); i++)
+        {
+            String tempGameName = searchPool.getGameByIndex(i).getTitle(); //converts to lowercase?
+            if (tempGameName.contains(searchString) && tempGameName.indexOf(searchString) == 0)
+            {
+                results.addGame(searchPool.getGameByIndex(i));
+            }
         }
 
-        //read through tags list in the Database in getTags
+        ArrayList<String> tempTagList = new ArrayList<String>();
+        for (int m = 0; m < selectedTags.size(); m++)
+        {
+            tempTagList.add(selectedTags.get(m));
+        }
+
+
+        for (int i = 0; i < searchPool.size(); i++)
+        {
+            ArrayList<String> tempGameTagList = new ArrayList<String>();
+            int tagSize = searchPool.getGameByIndex(i).getTags().size();
+
+            for (String items : searchPool.getGameByIndex(i).getTags())
+            {
+                tempGameTagList.add(items);
+            }
+
+            for (int j = 0; j < tagSize; j++)
+            {
+                if (tempTagList.get(i).equals(tempGameTagList.get(j)))
+                {
+                    results.addGame(searchPool.getGameByIndex(i));
+                }
+            }
+        }
+
+        return results;
     }
 
 }
-*/
+
+
