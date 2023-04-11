@@ -4,33 +4,36 @@ public class UserProfile {
     private String username;
     private String password;
     ArrayList<Review> userReviews = new ArrayList<>();
+    private static UserProfile defaultUser = new UserProfile();
+    private static boolean isSignedIn;
 
     private Library userLibrary = new Library();
 
     public UserProfile(){
         username = "None";
         password = "None";
+        isSignedIn = false;
     }
 
-    public UserProfile(String usernameInput, String passwordInput){
-       /* for(UserProfile user: PUT USER ARRAYLIST FROM DATABASE HERE){
-            if(username1.equals(user.getUserName()){
-
+   public UserProfile(String usernameInput, String passwordInput) {
+             {
+                username = usernameInput;
+                password = passwordInput;
             }
-        } */
-        username = usernameInput;
-        password = passwordInput;
+    }
+    public boolean getSignInStatus(){
+        return isSignedIn;
     }
 
     public void setPassword(String passwordInput){
         password = passwordInput;
     }
 
-    public void setUserName(String usernameInput){
+    public void setUsername(String usernameInput){
         username = usernameInput;
     }
 
-    public String getUserName(){
+    public String getUsername(){
         return username;
     }
 
@@ -49,8 +52,16 @@ public class UserProfile {
     public Library getLibrary(Library library){
         return library;
     }
-  /*  public void logIn(){
-        if username
-    }*/
+    public static UserProfile logIn(String username1, String password1){
+        for (UserProfile user: HomeView.getUsers()){
+            if (username1.equals(user.getUsername())){
+                if (password1.equals(user.getPassword())){
+                    isSignedIn = true;
+                    return user;
+                }
+            }
+        }
+        return defaultUser;
+    }
 
 }

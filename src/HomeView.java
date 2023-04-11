@@ -2,12 +2,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class HomeView {
 
+    static UserProfile currentUser = new UserProfile();
+    private static final ArrayList<UserProfile> AllUsers = new ArrayList<>();
+
     public static void homeView(){
+
+
+
 
         //Buttons and Text Fields
 
@@ -17,9 +24,7 @@ public class HomeView {
         JButton homeButton = new JButton("GAMEBOARD");
         JTextField usernameField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
-        JTextField failedLoginMessage = new JTextField("Information Entered is Incorrect or the Account Does Not Exist");
-        JTextField accountDuplicateMessage = new JTextField("Username is Taken");
-        JTextField accountInformationInvalid = new JTextField("The Entered Username or Password Cannot Have Spaces");
+        JLabel signInError = new JLabel();
         JLabel usernameText = new JLabel("Username:");
         JLabel passwordText = new JLabel("Password:");
 
@@ -32,7 +37,7 @@ public class HomeView {
 
         //HomeButton Formatting
 
-        homeBarRestraints.fill = homeBarRestraints.HORIZONTAL;
+        homeBarRestraints.fill = GridBagConstraints.HORIZONTAL;
         homeBarRestraints.ipady = 80;
         homeBarRestraints.weightx = 0.75;
         homeBarRestraints.gridwidth = 2;
@@ -100,21 +105,13 @@ public class HomeView {
         homeBar.add(createAccountButton, homeBarRestraints);
 
         //Login Related Error Messages
-        failedLoginMessage.setEditable(false);
-        accountDuplicateMessage.setEditable(false);
-        accountInformationInvalid.setEditable(false);
-        failedLoginMessage.setVisible(false);
-        accountDuplicateMessage.setVisible(false);
-        accountInformationInvalid.setVisible(false);
         homeBarRestraints.ipady = 40;
         homeBarRestraints.weightx = 0.2;
         homeBarRestraints.gridwidth = 1;
         homeBarRestraints.gridheight = 1;
         homeBarRestraints.gridx = 4;
         homeBarRestraints.gridy = 3;
-        homeBar.add(failedLoginMessage, homeBarRestraints);
-        homeBar.add(accountInformationInvalid, homeBarRestraints);
-        homeBar.add(accountDuplicateMessage, homeBarRestraints);
+        homeBar.add(signInError, homeBarRestraints);
 
 
         //HomeTabbedWindow
@@ -167,7 +164,15 @@ public class HomeView {
                 String passwordInput;
                 usernameInput = usernameField.getText();
                 passwordInput = passwordField.getText();
-                //UserProfile.logIn(usernameInput, passwordInput);
+
+                UserProfile.logIn(usernameInput, passwordInput);
+                currentUser = UserProfile.logIn(usernameInput, passwordInput);
+                signInError.setText(currentUser.getUsername()); //For Testing Purposes to see if signed in correctly
+                if (!currentUser.getSignInStatus()) {
+                    signInError.setText("Information Entered is Incorrect or the Account Does Not Exist");
+                }
+
+
             }
         });
 
@@ -175,18 +180,41 @@ public class HomeView {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean dupeAccount = false;
                 String usernameInput;
                 String passwordInput;
                 usernameInput = usernameField.getText();
                 passwordInput = passwordField.getText();
-                UserProfile registeredUser = new UserProfile(usernameInput, passwordInput);
+                for(UserProfile user: getUsers()){
+                    if (usernameInput.equals(user.getUsername())){
+                        signInError.setText("Username is Taken");
+                        dupeAccount = true;
+                    }
+                }
+                if(!dupeAccount) {
+                    UserProfile registeredUser = new UserProfile(usernameInput, passwordInput);
+                    AllUsers.add(registeredUser);
+                    currentUser = registeredUser;
+
+                }
 
             }
         });
 
 
     }
-
+    //Dummy List of Users for testing
+    public static ArrayList<UserProfile> getUsers(){
+        UserProfile user1 = new UserProfile("Bob", "smith");
+        UserProfile user2 = new UserProfile("John", "smite");
+        UserProfile user3 = new UserProfile("Joe", "King");
+        UserProfile user4 = new UserProfile("Bill", "Lee");
+        AllUsers.add(user1);
+        AllUsers.add(user2);
+        AllUsers.add(user3);
+        AllUsers.add(user4);
+        return AllUsers;
+    }
 
     public static void main(String[] args) {
         homeView();
