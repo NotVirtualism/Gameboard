@@ -49,7 +49,7 @@ public class ImportGames {
 
             for(int i = 0; i < xmlGameList.getLength(); i++){
                 Node game = xmlGameList.item(i);
-                currentGameList.addGame(parseNextGame(game));
+                loadNextGame(game);
             }
         }
 
@@ -60,75 +60,89 @@ public class ImportGames {
      * Every game in the XML is a child node of a larger item.
      * Parses a given node for all relevant data to instantiate a Game object.
      * @param xmlGameNode - the node being parsed
-     * @return a newly instantiated Game object given the results of the parse.
      */
-    private Game parseNextGame(Node xmlGameNode){
+    private void loadNextGame(Node xmlGameNode){
         String id;
-        Integer rank = 0;
         String title = "empt";
         String thumbUrl = "empt";
         String imageUrl = "empt";
         String desc = "empt";
-        Integer year = 0;
+        String dataLine;
+        Integer year = 0, minPlayers = 0, maxPlayers = 0, minPlayTime = 0, maxPlayTime = 0;
+
         NamedNodeMap attributes = xmlGameNode.getAttributes();
-
         id = attributes.getNamedItem("id").getNodeValue();
-        try {
-            rank = Integer.parseInt(attributes.getNamedItem("rank").getNodeValue());
-        } catch (NumberFormatException e) {
-            rank = 0;  // using a default value if the data in the file is bad
-        }
+        NodeList subNodes = xmlGameNode.getChildNodes();
+        title = getNodeAttribute(subNodes, "name", "value");
+        thumbUrl = getNodeText(subNodes, "thumbnail");
+        imageUrl = getNodeText(subNodes, "image");
+        desc = getNodeText(subNodes, "desc");
+        year = Integer.parseInt(getNodeAttribute(subNodes, "yearpublished", "value"));
 
-        title = parseTextField(xmlGameNode, "name");
-        thumbUrl = parseTextField(xmlGameNode, "thumbnail");
-        imageUrl = parseTextField(xmlGameNode, "image");
-        desc = parseTextField(xmlGameNode, "description");
-        year = parseIntegerField(xmlGameNode, "yearpublished");
-        return new Game(title, thumbUrl, imageUrl, desc, year, rank, id);
-    }
+        minPlayers = Integer.parseInt(getNodeAttribute(subNodes, "minplayers", "value"));
+        maxPlayers = Integer.parseInt(getNodeAttribute(subNodes, "maxplayers", "value"));
+        minPlayTime = Integer.parseInt(getNodeAttribute(subNodes, "minplaytime", "value"));
+        maxPlayTime = Integer.parseInt(getNodeAttribute(subNodes, "maxplaytime", "value"));
 
-    /**
-     * Some data is stored as child elements in the XML
-     * Given a gameNode, extracts the given field from the child nodes as an Integer.
-     * @param xmlGameNode - a game node from the DOM
-     * @param fieldname - the field we are looking to extract
-     * @return - the value of the field we are extracting, or "unknown" if no such value exists
-     */
-    private String parseTextField(Node xmlGameNode, String fieldname) {
-        NodeList fields = xmlGameNode.getChildNodes();
-        String fieldText = "unknown";
-        for (int i = 0; i < fields.getLength(); i++) {
-            Node field = fields.item(i);
-            if (field.getNodeName().equals(fieldname)) {
-                NamedNodeMap attributes = field.getAttributes();
-                fieldText = attributes.getNamedItem("value").getNodeValue();
-            }
-        }
-        return fieldText;
-    }
+        Game loadedGame = new Game(title, thumbUrl, imageUrl, desc, year, id, minPlayers, maxPlayers, minPlayTime, maxPlayTime);
 
-    /**
-     * Some data is stored as child elements in the XML
-     * Given a gameNode, extracts the given field from the child nodes as an Integer.
-     * @param xmlGameNode - a game node from the DOM
-     * @param fieldname - the field we are looking to extract
-     * @return - the value of the field we are extracting, or "unknown" if no such value exists
-     */
-    private Integer parseIntegerField(Node xmlGameNode, String fieldname) {
-        NodeList fields = xmlGameNode.getChildNodes();
-        Integer fieldValue = 0;
-        for (int i = 0; i < fields.getLength(); i++) {
-            Node field = fields.item(i);
-            if (field.getNodeName().equals(fieldname)) {
-                NamedNodeMap attributes = field.getAttributes();
-                try {
-                    fieldValue = Integer.parseInt(attributes.getNamedItem("value").getNodeValue());
-                } catch (NumberFormatException e) {
-                    fieldValue = 0;  // default if an exception is thrown.
+        //adding Game tags, authors, and publishers here because repeated Node names
+        Node current;
+        for(int i = 0; i < subNodes.getLength(); i++){
+            current = subNodes.item(i);
+            if(current.getNodeName().equals("link")){
+                dataLine = current.getAttributes().getNamedItem("value").getNodeValue();
+                switch(current.getAttributes().getNamedItem("type").getNodeValue()){
+                    case "boardgamecategory":
+                        loadedGame.addTag(dataLine);
+                        break;
+                    case "boardgamedesigner":
+                        loadedGame.addAuthor(dataLine);
+                        break;
+                    case "boardgamepublisher":
+                        loadedGame.addPublisher(dataLine);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
-        return fieldValue;
+
+        currentGameList.addGame(loadedGame);
     }
 
+    /**
+     * Returns the string in between the opening and closing tags of the specified node in a given NodeList (<>$*@%$</>).
+     * @param n - NodeList to search for the specified node in.
+     * @param nodeName - Name of the node to search for.
+     * @return the node's text content as a String or a default if not found/does not exist.
+     */
+    private String getNodeText(NodeList n, String nodeName){
+        Node current;
+        for(int i = 0; i < n.getLength(); i++){
+            current = n.item(i);
+            if(current.getNodeName().equals(nodeName))
+                return current.getTextContent();
+        }
+        return "does not exist.";
+    }
+
+    /**
+     * Returns the contents of a specified attribute of a specified node in a given NodeList.
+     * @param n - The NodeList to look for the node in
+     * @param nodeName - The name of the node to search 'n' for
+     * @param att - The name of the attribute to search the node for
+     * @return The value of the attribute as a String, or a default if it is not found/does not exist.
+     */
+    private String getNodeAttribute(NodeList n, String nodeName, String att){
+        Node current;
+        for(int i = 0; i < n.getLength(); i++){
+            current = n.item(i);
+            if(current.getNodeName().equals(nodeName)){
+                NamedNodeMap attributes = current.getAttributes();
+                return attributes.getNamedItem(att).getNodeValue();
+            }
+        }
+        return "does not exist.";
+    }
 }
