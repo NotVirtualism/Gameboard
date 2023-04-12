@@ -23,7 +23,7 @@ public class SearchTest {
 
             for (int i = 0; i < results.size(); i++)
             {
-                System.out.print(results.getGameByIndex(i).getTitle());
+                System.out.println(results.getGameByIndex(i).getTitle());
             }
 
         } catch (FileNotFoundException e1) {
