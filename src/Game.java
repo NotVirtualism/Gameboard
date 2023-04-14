@@ -29,6 +29,10 @@ public class Game {
         minPlayTime = mPT;
         maxPlayTime = MPT;
     }
+    
+    public Game(String t) {
+        title = t;
+    }
 
     public void addTag(String tag){
         tags.add(tag);

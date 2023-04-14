@@ -25,5 +25,9 @@ public class Library {
 
         gameCollectionList.remove(gameIndex);
     }
+    
+    public GameCollection getGameCollectionByIndex(int i){
+        return gameCollectionList.get(i);
+    }
 
 }
