@@ -10,6 +10,8 @@ public class GameCollection {
     public GameCollection(String name) {
         listname = name;
     }
+    
+    public String getGameCollectionName() { return listname; }
 
     /* Add a game to a GameCollection */
     public void addGame(Game g) {
