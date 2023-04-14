@@ -1,0 +1,32 @@
+<items>
+    <item type = "UserProfile">
+<name value = "bPie" />
+<password value = "123" />
+        <reviews value = "3">
+<review game = "Catan" value = "Great Game 10/10" />
+<review game = "Monopoly" value = "I love capitalism! 0/10" />
+<review game = "Tic-Tac-Toe" value = "You got games on your phone?" />
+</reviews>
+        <collections value = "3">
+            <collection value = "AllGames">
+                <games value = "3">
+                    <game value = "Catan" />
+                    <game value = "Monopoly" />
+                    <game value = "Tic-Tac-Toe"/>
+                </games>
+            </collection>
+            <collection value = "IHateCatan" >
+                <games value = "1" >
+                    <game value = "Catan" />
+                </games>
+            </collection>
+            <collection value = "NotCatan" >
+                <games value = "2" >
+                    <game value = "MonoPoly" />
+                    <game value = "Tic-Tac-Toe"/>
+                </games>
+            </collection>
+        </collections>
+</item>
+</items>
+
