@@ -158,7 +158,6 @@ public class HomeView {
 
 
         //Game Tab
-
         Game game = new Game("title", "thumbnailUrl", "imageUrl", "description", 0, "id", 0, 0, 0, 0);
         GameView gv = new GameView(game);
         JPanel gameTab = new JPanel();
@@ -220,8 +219,6 @@ public class HomeView {
             }
         });
 
-
-
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -230,24 +227,21 @@ public class HomeView {
                 String passwordInput;
                 usernameInput = usernameField.getText();
                 passwordInput = String.valueOf(passwordField.getPassword());
-                for(UserProfile user: finalUserDatabase.getAllUsers()){
-                    if (usernameInput.equals(user.getUsername())){
+                for (UserProfile user : finalUserDatabase.getAllUsers()) {
+                    if (usernameInput.equals(user.getUsername())) {
                         signInError.setText("Username is Taken");
                         dupeAccount = true;
                     }
                 }
-                if(!dupeAccount) {
+                if (!dupeAccount) {
                     UserProfile registeredUser = new UserProfile(usernameInput, passwordInput);
                     finalUserDatabase.addUserProfile(registeredUser);
                     usernameField.setText("");
                     passwordField.setText("");
                     signInError.setText("");
-
-
                 }
             }
         });
-
         signOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

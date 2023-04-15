@@ -6,13 +6,15 @@ public class Review {
     private int reviewScore;
     private String reviewText;
     private UserProfile user;
+    private String gameName;
 
 
-    public Review(int score, String text, UserProfile user)
+    public Review(int score, String text, UserProfile user, String gameName)
     {
         reviewScore = score;
         reviewText = text;
         this.user = user;
+        this.gameName = gameName;
     }
 
     public void setScore(int score)
@@ -33,6 +35,16 @@ public class Review {
     public String getText()
     {
         return reviewText;
+    }
+    
+    public String getGameName()
+    {
+        return gameName;
+    }
+
+    public void setGameName(String name) 
+    { 
+        gameName = name; 
     }
 
     public void setUser(UserProfile user)

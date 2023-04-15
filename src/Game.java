@@ -29,6 +29,10 @@ public class Game {
         minPlayTime = mPT;
         maxPlayTime = MPT;
     }
+    
+    public Game(String t) {
+        title = t;
+    }
 
     public void addTag(String tag){
         tags.add(tag);
@@ -69,7 +73,13 @@ public class Game {
     public ArrayList<String> getTags(){
         return tags;
     }
-
+    public ArrayList<Review> getReviews() { return reviews; }
+    public ArrayList<String> getAuthors() { return authors; }
+    public ArrayList<String> getPublishers() { return publishers; }
+    public Integer getMinPlayers() { return minPlayers; }
+    public Integer getMaxPlayers() { return maxPlayers; }
+    public Integer getMinPlayTime() { return minPlayTime; }
+    public Integer getMaxPlayTime() { return maxPlayTime; }
     public String toString() {
         return "[" + title + ", "+ pubYear + ", BGG ID: " + id + "]";
     }
