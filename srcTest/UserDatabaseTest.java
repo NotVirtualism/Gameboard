@@ -13,6 +13,7 @@ public class UserDatabaseTest {
                 System.out.println(user.getPassword());
                 System.out.println(user.getReviews().size() + " Reviews");
                 for (Review review : user.getReviews()) {
+                    System.out.println(review.getGameName());
                     System.out.println(review.getScore());
                     System.out.println(review.getText());
                 }

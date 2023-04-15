@@ -71,7 +71,7 @@ public class ImportUserProfiles{
                 reviewGame = current.getAttributes().getNamedItem("game").getNodeValue();
                 reviewScore = current.getAttributes().getNamedItem("score").getNodeValue();
 
-                Review loadedReview = new Review(Integer.valueOf(reviewScore), reviewText, loadedUser);
+                Review loadedReview = new Review(Integer.valueOf(reviewScore), reviewText, loadedUser, reviewGame);
                 loadedUser.addReview(loadedReview);
                 //use search function to find the game in the database
                 //loadedGame.addReview(loadedReview);
