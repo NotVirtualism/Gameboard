@@ -45,10 +45,12 @@ public class GameView {
 
         String gameThumbnailHolder = game.getThumbnailUrl();
 
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
-        c.gridwidth = 1;
-        c.gridheight = 2;
+        c.gridwidth = 4;
+        c.gridheight = 4;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
         c.gridy = 0;
 
         JLabel gameThumbnailLabel = new JLabel(gameThumbnailHolder);
@@ -59,10 +61,13 @@ public class GameView {
 
         String gameNameHolder = game.getTitle();
 
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
-        c.gridwidth = 2;
-        c.gridy = 2;
+        c.gridwidth = 8;
+        c.gridheight = 2;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
+        c.gridy = 4;
 
         JLabel gameNameLabel = new JLabel(gameNameHolder);
         panel.add(gameNameLabel, c);
@@ -72,11 +77,13 @@ public class GameView {
 
         String gamePictureHolder = game.getImageUrl();
 
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
-        c.gridwidth = 2;
-        c.gridheight = 2;
-        c.gridy = 3;
+        c.gridwidth = 8;
+        c.gridheight = 8;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
+        c.gridy = 6;
 
         JLabel gamePictureLabel = new JLabel(gamePictureHolder);
         panel.add(gamePictureLabel, c);
@@ -86,10 +93,12 @@ public class GameView {
 
         JButton addToLibraryButton = new JButton("Add to library");
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.gridwidth = 3;
-        c.gridheight = 1;
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 4;
+        c.gridwidth = 6;
+        c.gridheight = 2;
+        c.weightx = 0.3;
+        c.weighty = 0.1;
         c.gridy = 0;
         panel.add(addToLibraryButton, c);
 
@@ -143,11 +152,13 @@ public class GameView {
         gameStatsHolder = gameStatsHolder + "Tags: " + gameTagsHolder + "<br/>" + "Authors: "
                 + gameAuthorsHolder + "<br/>" + "Publishers: " + gamePublishersHolder;
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 2;
-        c.gridwidth = 1;
-        c.gridheight = 3;
-        c.gridy = 2;
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 8;
+        c.gridwidth = 8;
+        c.gridheight = 10;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
+        c.gridy = 4;
 
         JLabel gameStatsLabel = new JLabel(gameStatsHolder);
         panel.add(gameStatsLabel, c);
@@ -171,11 +182,13 @@ public class GameView {
 
         String gameDescriptionHolder = game.getDescription();
 
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
-        c.gridwidth = 4;
-        c.gridheight = 2;
-        c.gridy = 5;
+        c.gridwidth = 16;
+        c.gridheight = 8;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
+        c.gridy = 14;
 
         JLabel gameDescriptionLabel = new JLabel(gameDescriptionHolder);
         panel.add(gameDescriptionLabel, c);
@@ -185,7 +198,9 @@ public class GameView {
 
         JFrame gameFrame = new JFrame();
         gameFrame.setBounds(0,0,1920,1080);
-        gameFrame.getContentPane().add(panel, BorderLayout.CENTER);
+       // gameFrame.getContentPane().add(panel, BorderLayout.CENTER);
+        gameFrame.setContentPane(new JScrollPane(panel));
+        gameFrame.pack();
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
 
