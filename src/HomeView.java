@@ -159,7 +159,6 @@ public class HomeView {
 
         //Game Tab
         Game game = new Game("title", "thumbnailUrl", "imageUrl", "description", 0, "id", 0, 0, 0, 0);
-        GameView gv = new GameView(game);
         JPanel gameTab = new JPanel();
         gameTab = GameView.gameView(game);
         homeTabbedWindow.add("Game", gameTab);
