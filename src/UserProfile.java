@@ -24,6 +24,13 @@ public class UserProfile {
     public boolean getSignInStatus(){
         return isSignedIn;
     }
+    public void setSignInStatus(boolean TorF){
+        if (TorF) {
+            isSignedIn = true;
+        }
+        else
+            isSignedIn = false;
+    }
 
     public void setPassword(String passwordInput){
         password = passwordInput;
@@ -49,19 +56,22 @@ public class UserProfile {
         return userReviews;
     }
 
-    public Library getLibrary(Library library){
-        return library;
+    public Library getLibrary(){
+        return userLibrary;
     }
-    public static UserProfile logIn(String username1, String password1){
-        for (UserProfile user: HomeView.getUsers()){
+    public  UserProfile logIn(String username1, String password1, UserDatabase uDatabase){
+
+        for (UserProfile user: uDatabase.getAllUsers()){
+
             if (username1.equals(user.getUsername())){
                 if (password1.equals(user.getPassword())){
                     isSignedIn = true;
+
                     return user;
                 }
             }
         }
-        return defaultUser;
+        return uDatabase.getDefaultUser();
     }
 
 }

@@ -2,24 +2,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.io.IOException;
+
 
 
 public class HomeView {
 
     static UserProfile currentUser = new UserProfile();
-    private static final ArrayList<UserProfile> AllUsers = new ArrayList<>();
+
 
     public static void homeView(){
-
-
+        UserDatabase userDatabase = null;
+        try {
+            userDatabase = new UserDatabase("AllUserProfileData.xml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         //Buttons and Text Fields
 
 
         JButton signInButton = new JButton("Sign In");
+        JButton signOutButton = new JButton("Sign Out");
         JButton createAccountButton = new JButton("Create Account");
         JButton homeButton = new JButton("GAMEBOARD");
         JTextField usernameField = new JTextField();
@@ -27,6 +32,7 @@ public class HomeView {
         JLabel signInError = new JLabel();
         JLabel usernameText = new JLabel("Username:");
         JLabel passwordText = new JLabel("Password:");
+        JLabel currentUsername = new JLabel();
 
 
         //HomeBar
@@ -113,6 +119,28 @@ public class HomeView {
         homeBarRestraints.gridy = 3;
         homeBar.add(signInError, homeBarRestraints);
 
+        //Sign Out Button Formatting
+
+        homeBarRestraints.ipady = 80;
+        homeBarRestraints.gridwidth = 1;
+        homeBarRestraints.gridheight = 2;
+        homeBarRestraints.weightx = 0.25;
+        homeBarRestraints.gridx = 5;
+        homeBarRestraints.gridy = 0;
+        homeBar.add(signOutButton, homeBarRestraints);
+        signOutButton.setVisible(false);
+
+        //Current Username Field Formatting
+
+        homeBarRestraints.ipady = 80;
+        homeBarRestraints.gridwidth = 1;
+        homeBarRestraints.gridheight = 2;
+        homeBarRestraints.weightx = 0.25;
+        homeBarRestraints.gridx = 4;
+        homeBarRestraints.gridy = 0;
+        homeBar.add(currentUsername, homeBarRestraints);
+        signOutButton.setVisible(false);
+
 
         //HomeTabbedWindow
 
@@ -131,7 +159,10 @@ public class HomeView {
 
         //Game Tab
 
+        Game game = new Game("title", "thumbnailUrl", "imageUrl", "description", 0, "id", 0, 0, 0, 0);
+        GameView gv = new GameView(game);
         JPanel gameTab = new JPanel();
+        gameTab = GameView.gameView(game);
         homeTabbedWindow.add("Game", gameTab);
 
 
@@ -157,24 +188,38 @@ public class HomeView {
         homeFrame.setVisible(true);
 
         //Sign In Button Handling
+        UserDatabase finalUserDatabase = userDatabase;
+
         signInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String usernameInput;
                 String passwordInput;
                 usernameInput = usernameField.getText();
-                passwordInput = passwordField.getText();
+                passwordInput = String.valueOf(passwordField.getPassword());
+                currentUser = currentUser.logIn(usernameInput, passwordInput, finalUserDatabase);
 
-                UserProfile.logIn(usernameInput, passwordInput);
-                currentUser = UserProfile.logIn(usernameInput, passwordInput);
-                signInError.setText(currentUser.getUsername()); //For Testing Purposes to see if signed in correctly
-                if (!currentUser.getSignInStatus()) {
+                if (currentUser.getSignInStatus()) {
+                    usernameText.setVisible(false);
+                    usernameField.setVisible(false);
+                    passwordText.setVisible(false);
+                    passwordField.setVisible(false);
+                    createAccountButton.setVisible(false);
+                    signInButton.setVisible(false);
+                    signInError.setVisible(false);
+                    currentUsername.setText(currentUser.getUsername());
+                    currentUsername.setVisible(true);
+                    signOutButton.setVisible(true);
+                }
+
+                else {
                     signInError.setText("Information Entered is Incorrect or the Account Does Not Exist");
                 }
 
 
             }
         });
+
 
 
         createAccountButton.addActionListener(new ActionListener() {
@@ -184,8 +229,8 @@ public class HomeView {
                 String usernameInput;
                 String passwordInput;
                 usernameInput = usernameField.getText();
-                passwordInput = passwordField.getText();
-                for(UserProfile user: getUsers()){
+                passwordInput = String.valueOf(passwordField.getPassword());
+                for(UserProfile user: finalUserDatabase.getAllUsers()){
                     if (usernameInput.equals(user.getUsername())){
                         signInError.setText("Username is Taken");
                         dupeAccount = true;
@@ -193,28 +238,38 @@ public class HomeView {
                 }
                 if(!dupeAccount) {
                     UserProfile registeredUser = new UserProfile(usernameInput, passwordInput);
-                    AllUsers.add(registeredUser);
-                    currentUser = registeredUser;
+                    finalUserDatabase.addUserProfile(registeredUser);
+                    usernameField.setText("");
+                    passwordField.setText("");
+                    signInError.setText("");
+
 
                 }
+            }
+        });
 
+        signOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                usernameField.setText("");
+                passwordField.setText("");
+                signInError.setText("");
+                currentUser = finalUserDatabase.getDefaultUser();
+                usernameText.setVisible(true);
+                usernameField.setVisible(true);
+                passwordText.setVisible(true);
+                passwordField.setVisible(true);
+                createAccountButton.setVisible(true);
+                signInButton.setVisible(true);
+                signInError.setVisible(true);
+                currentUsername.setVisible(false);
+                signOutButton.setVisible(false);
             }
         });
 
 
     }
-    //Dummy List of Users for testing
-    public static ArrayList<UserProfile> getUsers(){
-        UserProfile user1 = new UserProfile("Bob", "smith");
-        UserProfile user2 = new UserProfile("John", "smite");
-        UserProfile user3 = new UserProfile("Joe", "King");
-        UserProfile user4 = new UserProfile("Bill", "Lee");
-        AllUsers.add(user1);
-        AllUsers.add(user2);
-        AllUsers.add(user3);
-        AllUsers.add(user4);
-        return AllUsers;
-    }
+
 
     public static void main(String[] args) {
         homeView();
