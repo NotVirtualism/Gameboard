@@ -30,4 +30,7 @@ public class Library {
         return gameCollectionList.get(i);
     }
 
+    public ArrayList<GameCollection> getCollections() {
+        return gameCollectionList;
+    }
 }

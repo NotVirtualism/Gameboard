@@ -134,7 +134,7 @@ public class ExportUserProfile {
                 collections.appendChild(currentCollection);
 
                 attr6 = doc.createAttribute("value");
-                attr6.setValue(collectionNames.getGameCollectionName()); //might get name of game, not sure yet
+                attr6.setValue(collectionNames.getName()); //might get name of game, not sure yet
                 currentCollection.setAttributeNode(attr6);
 
                 tempGameCollection = library.getGameCollectionByIndex(k);
