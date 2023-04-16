@@ -11,7 +11,7 @@ public class GameCollection {
         listname = name;
     }
     
-    public String getGameCollectionName() { return listname; }
+    public String getName() { return listname; }
 
     /* Add a game to a GameCollection */
     public void addGame(Game g) {

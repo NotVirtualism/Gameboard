@@ -33,7 +33,7 @@ public class GameCollectionView {
         Game current;
         for(int i = 0; i < gameList.size(); i++) {
             current = gameList.getGameByIndex(i);
-            String html = String.format("<html><img src='%s'/><br/>%s", current.getThumbnailUrl(), current.getTitle());
+            String html = String.format("<html><img src='%s'/><br/>%s", current.getThumbnailUrl(), current.getTitle()); //swing is so swag for this
             JButton btn = new JButton(html);
             btn.setPreferredSize(new Dimension(200, 200));
             panel.add(btn);
