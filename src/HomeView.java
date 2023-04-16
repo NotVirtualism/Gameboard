@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 
@@ -163,7 +164,6 @@ public class HomeView {
         gameTab = GameView.gameView(game);
         homeTabbedWindow.add("Game", gameTab);
 
-
         //Library Tab
 
         JPanel libraryTab = new JPanel();
@@ -172,7 +172,14 @@ public class HomeView {
 
         //Your Reviews Tab
 
+        UserProfile userProfile = new UserProfile();
+        Review review = new Review(0, "text", userProfile, "game name");
+        for (int counter = 0; counter < 10; counter++)
+        {
+            userProfile.addReview(review);
+        }
         JPanel reviewTab = new JPanel();
+        reviewTab = ReviewView.reviewView(userProfile);
         homeTabbedWindow.add("Your Reviews",reviewTab);
 
 
