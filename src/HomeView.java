@@ -160,6 +160,12 @@ public class HomeView {
 
         //Game Tab
         Game game = new Game("title", "thumbnailUrl", "imageUrl", "description", 0, "id", 0, 0, 0, 0);
+        UserProfile gameUserProfile = new UserProfile();
+        Review gameReview = new Review(0, "text", gameUserProfile, "game name");
+        for (int counter = 0; counter < 20; counter++)
+        {
+            game.addReview(gameReview);
+        }
         JPanel gameTab = new JPanel();
         gameTab = GameView.gameView(game);
         homeTabbedWindow.add("Game", gameTab);
@@ -172,14 +178,14 @@ public class HomeView {
 
         //Your Reviews Tab
 
-        UserProfile userProfile = new UserProfile();
-        Review review = new Review(0, "text", userProfile, "game name");
+        UserProfile yourUserProfile = new UserProfile();
+        Review yourReview = new Review(0, "text",  yourUserProfile, "game name");
         for (int counter = 0; counter < 10; counter++)
         {
-            userProfile.addReview(review);
+            yourUserProfile.addReview(yourReview);
         }
         JPanel reviewTab = new JPanel();
-        reviewTab = ReviewView.reviewView(userProfile);
+        reviewTab = ReviewView.reviewView(yourUserProfile);
         homeTabbedWindow.add("Your Reviews",reviewTab);
 
 

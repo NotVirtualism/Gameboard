@@ -144,6 +144,8 @@ public class GameView {
         ArrayList<Review> reviewsHolder = new ArrayList();
         reviewsHolder = game.getReviews();
 
+        JPanel contentPane = new JPanel();
+
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 12;
         c.gridwidth = 8;
@@ -152,21 +154,22 @@ public class GameView {
         c.weighty = 0.1;
         c.gridy = 4;
 
-        JScrollPane scrollPane = new JScrollPane(panel);
+        JScrollPane scrollPane = new JScrollPane(contentPane);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        String gameReviewsHolder = "";
+        String gameReviewsHolder = "<html>REVIEWS" + "<br/>";
         for (int counter = 0; counter < reviewsHolder.size(); counter++) {
             if (counter == 0)
             {
                 gameReviewsHolder = gameReviewsHolder + reviewsHolder.get(counter).toString();
             }
-            gameReviewsHolder = gameReviewsHolder + "\n" + reviewsHolder.get(counter).toString();
+            gameReviewsHolder = gameReviewsHolder + "<br/>" + reviewsHolder.get(counter).toString();
         }
 
-        JLabel gameReviewsLabel = new JLabel("REVIEWS" + gameReviewsHolder);
-        panel.add(gameReviewsLabel, c);
+        JLabel gameReviewsLabel = new JLabel(gameReviewsHolder);
+        contentPane.add(gameReviewsLabel, c);
+        panel.add(scrollPane, c);
+        scrollPane.getViewport().setPreferredSize(new Dimension(40, 40));
         gameReviewsLabel.setBorder(new LineBorder(Color.black));
 
         // Game Rating - UPDATE: Likely dropping using rank - Logan

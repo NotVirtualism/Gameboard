@@ -80,6 +80,9 @@ public class Game {
     public Integer getMaxPlayers() { return maxPlayers; }
     public Integer getMinPlayTime() { return minPlayTime; }
     public Integer getMaxPlayTime() { return maxPlayTime; }
+    public void addReview(Review review){
+        reviews.add(review);
+    }
     public String toString() {
         return "[" + title + ", "+ pubYear + ", BGG ID: " + id + "]";
     }
