@@ -57,5 +57,9 @@ public class Review {
         return user;
     }
 
+    public String toString() {
+        return Integer.toString(reviewScore) + " " + gameName + "\n" + reviewText + "\n-" + user;
+    }
+
 
 }

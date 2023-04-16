@@ -1,31 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.sql.Array;
 import java.util.ArrayList;
 public class GameView {
-
-
-//    // Accepts a game and populates the values
-//    public void populate(Game g)
-//    {
-//        String title = g.getTitle();
-//        String thumbnailUrl = g.getThumbnailUrl();
-//        String imageUrl = g.getImageUrl();
-//        String description = g.getDescription();
-//        Integer pubYear = g.getPubYear();
-//        String id = g.getId();
-//        ArrayList<String> tags = g.getTags();
-//        ArrayList<Review> reviews = g.getReviews();
-//        ArrayList<String> authors = g.getAuthors();
-//        ArrayList<String> publishers = g.getPublishers();
-//        Integer minPlayers = g.getMinPlayers();
-//        Integer maxPlayers = g.getMaxPlayers();
-//        Integer minPlayTime = g.getMinPlayTime();
-//        Integer maxPlayTime = g.getMaxPlayTime();
-//    }
-
-
     public GameView(Game g)
     {
         gameView(g);
@@ -111,8 +88,6 @@ public class GameView {
 
         ArrayList<String> tagsHolder = new ArrayList();
         tagsHolder = game.getTags();
-        ArrayList<Review> reviewsHolder = new ArrayList();
-        reviewsHolder = game.getReviews();
         ArrayList<String> authorsHolder = new ArrayList();
         authorsHolder = game.getAuthors();
         ArrayList<String> publishersHolder = new ArrayList();
@@ -164,6 +139,36 @@ public class GameView {
         panel.add(gameStatsLabel, c);
         gameStatsLabel.setBorder(new LineBorder(Color.black));
 
+        // Game Reviews
+
+        ArrayList<Review> reviewsHolder = new ArrayList();
+        reviewsHolder = game.getReviews();
+
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 12;
+        c.gridwidth = 8;
+        c.gridheight = 10;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
+        c.gridy = 4;
+
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        String gameReviewsHolder = "";
+        for (int counter = 0; counter < reviewsHolder.size(); counter++) {
+            if (counter == 0)
+            {
+                gameReviewsHolder = gameReviewsHolder + reviewsHolder.get(counter).toString();
+            }
+            gameReviewsHolder = gameReviewsHolder + "\n" + reviewsHolder.get(counter).toString();
+        }
+
+        JLabel gameReviewsLabel = new JLabel("REVIEWS" + gameReviewsHolder);
+        panel.add(gameReviewsLabel, c);
+        gameReviewsLabel.setBorder(new LineBorder(Color.black));
+
         // Game Rating - UPDATE: Likely dropping using rank - Logan
         /*
         String gameRankHolder = String.valueOf(game.getRank());
@@ -198,8 +203,7 @@ public class GameView {
 
         JFrame gameFrame = new JFrame();
         gameFrame.setBounds(0,0,1920,1080);
-       // gameFrame.getContentPane().add(panel, BorderLayout.CENTER);
-        gameFrame.setContentPane(new JScrollPane(panel));
+        gameFrame.getContentPane().add(panel, BorderLayout.CENTER);
         gameFrame.pack();
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
