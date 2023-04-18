@@ -64,7 +64,9 @@ public class ExportUserProfile {
             item.appendChild(passw);
             Attr attr2 = doc.createAttribute("value");
             attr2.setValue(password);
-            name.setAttributeNode(attr2);
+            passw.setAttributeNode(attr2);
+
+
 
             int i = 0;
             while (i < reviewList.size())
@@ -74,10 +76,10 @@ public class ExportUserProfile {
             String s = Integer.toString(i);
 
             Element reviewLength = doc.createElement("reviews");
-            item.appendChild(reviewLength);
+            //item.appendChild(reviewLength);
             Attr attr3 = doc.createAttribute("value");
             attr3.setValue(s);
-            name.setAttributeNode(attr3);
+            reviewLength.setAttributeNode(attr3);
 
             Attr attrType;
             Attr attrType2;
@@ -87,7 +89,7 @@ public class ExportUserProfile {
             for (Review listings : reviewList)
             {
                 current = doc.createElement("review");
-                reviewLength.appendChild(current);
+                item.appendChild(current);
 
                 attrType = doc.createAttribute("game");
                 attrType.setValue(listings.getGameName());
@@ -103,8 +105,8 @@ public class ExportUserProfile {
                 current.setAttributeNode(attrType2);
             }
 
-            Element collections = doc.createElement("collections");
-            item.appendChild(collections);
+           // Element collections = doc.createElement("collections");
+            //item.appendChild(collections);
 
             i = 0;
             while (i < library.gameCollectionList.size())
@@ -114,7 +116,7 @@ public class ExportUserProfile {
             s = Integer.toString(i);
             Attr attr5 = doc.createAttribute("value");
             attr5.setValue(s);
-            collections.setAttributeNode(attr5);
+           // collections.setAttributeNode(attr5);
 
 
             Element currentCollection;
@@ -131,7 +133,7 @@ public class ExportUserProfile {
             for (GameCollection collectionNames : library.gameCollectionList)
             {
                 currentCollection = doc.createElement("collection");
-                collections.appendChild(currentCollection);
+                item.appendChild(currentCollection);
 
                 attr6 = doc.createAttribute("value");
                 attr6.setValue(collectionNames.getName()); //might get name of game, not sure yet
@@ -139,19 +141,19 @@ public class ExportUserProfile {
 
                 tempGameCollection = library.getGameCollectionByIndex(k);
 
-                currentGameListLen = doc.createElement("games");
-                currentCollection.appendChild(currentGameListLen);
+                //  currentGameListLen = doc.createElement("games");
+               // item.appendChild(currentGameListLen);
                 int tempLen = tempGameCollection.size();
                 s = Integer.toString(tempLen);
 
                 attr7 = doc.createAttribute("value");
                 attr7.setValue(s);
-                currentGameListLen.setAttributeNode(attr7);
+               //currentGameListLen.setAttributeNode(attr7);
 
                 for (int j = 0; j < tempGameCollection.size(); j++)
                 {
                     currentGame = doc.createElement("game");
-                    currentGameListLen.appendChild(currentGame);
+                    item.appendChild(currentGame);
 
                     attr8 = doc.createAttribute("value");
                     attr8.setValue(tempGameCollection.getGameByIndex(j).getTitle());
