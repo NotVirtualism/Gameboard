@@ -18,6 +18,7 @@ public class Search {
 
     public GameCollection search()
     {
+        //Searches by string inputted
         for (int i = 0; i < searchPool.size(); i++)
         {
 
@@ -36,42 +37,70 @@ public class Search {
             tempTagList.add(selectedTags.get(m));
         }
 
-
-        for (int i = 0; i < searchPool.size(); i++)
+        ArrayList<String> tempGameTags = new ArrayList<String>();
+        //Narrows down by tag
+        boolean check = false;
+        if (selectedTags.size() > 0 && results.size() > 0)
         {
-            ArrayList<String> tempGameTagList = new ArrayList<String>();
-            int tagSize = searchPool.getGameByIndex(i).getTags().size();
-            boolean checkGameIn = false;
-            System.out.println("Game " + (i + 1) + " checked");
-
-            for (String items : searchPool.getGameByIndex(i).getTags())
+            Game tempGame;
+            for (int i = 0; i < results.size(); i++)
             {
-                tempGameTagList.add(items);
-            }
-
-            for (int m = 0; m < tempTagList.size(); m++)
-            {
-
-                for (int j = 0; j < tempGameTagList.size(); j++)
+                tempGame = results.getGameByIndex(i);
+                tempGameTags = tempGame.getTags();
+                for (int j = 0; j < selectedTags.size(); j++)
                 {
-                    int tempSize = results.size();
-                    for (int r = 0; r < tempSize; r++)
+                    for (int k = 0; k < tempGameTags.size(); k++)
                     {
-                        if (tempTagList.get(m).equals(tempGameTagList.get(j)))
+                        if (selectedTags.get(j).equals(tempGameTags.get(k)))
                         {
-                            if (searchPool.getGameByIndex(i).equals(results.getGameByIndex(r)))
-                            {
-                                checkGameIn = true;
-                            }
+                            check = true;
                         }
                     }
                 }
 
-            }
+                if (check == false)
+                {
+                    results.removeGame(tempGame);
+                }
 
-            if (!checkGameIn)
+                check = false;
+            }
+        }
+
+        //search just by tag
+        String emptyString = "";
+        if (searchString.equals(emptyString))
+        {
+            boolean checkGameIn = false;
+            for (int i = 0; i < searchPool.size(); i++)
             {
-                results.addGame(searchPool.getGameByIndex(i));
+                ArrayList<String> tempGameTagList = new ArrayList<String>();
+                System.out.println("Game " + (i + 1) + " checked");
+
+                for (String items : searchPool.getGameByIndex(i).getTags())
+                {
+                    tempGameTagList.add(items);
+                }
+
+                for (int m = 0; m < selectedTags.size(); m++)
+                {
+
+                    for (int j = 0; j < tempGameTagList.size(); j++)
+                    {
+                        if (selectedTags.get(m).equals(tempGameTagList.get(j)))
+                        {
+                            checkGameIn = true;
+                        }
+                    }
+
+                }
+
+                if (checkGameIn == true)
+                {
+                    results.addGame(searchPool.getGameByIndex(i));
+                }
+
+                checkGameIn = false;
             }
         }
 
@@ -79,8 +108,3 @@ public class Search {
     }
 
 }
-
-
-
-
-
