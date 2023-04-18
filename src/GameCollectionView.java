@@ -1,5 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 /*
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +12,8 @@ import java.awt.event.*;
 
 public class GameCollectionView {
     private static GameCollection gameList;
+
+    private static Game selectedGame;
 
     /**
      * Instantiates a GameCollectionView with a given GameCollection
@@ -28,14 +34,33 @@ public class GameCollectionView {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0,7));
         Game current;
+        ArrayList<JButton> buttons = new ArrayList<>();
         for(int i = 0; i < gameList.size(); i++) {
             current = gameList.getGameByIndex(i);
             String html = String.format("<html><img src='%s'/><br/>%s", current.getThumbnailUrl(), current.getTitle()); //swing is so swag for this
             JButton btn = new JButton(html);
             btn.setPreferredSize(new Dimension(200, 200));
-            panel.add(btn);
+            buttons.add(btn);
+            panel.add(buttons.get(i));
+            final int index = i;
+            buttons.get(i).addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+
+                        selectedGame = gameList.getGameByIndex(index);
+                        HomeView.openGameTab();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
         }
         return new JScrollPane(panel);
     }
+
+        public static Game getSelectedGame(){
+            return selectedGame;
+        }
 }
 

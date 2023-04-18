@@ -8,11 +8,12 @@ import java.util.ArrayList;
 
 
 public class HomeView {
+    private static final JTabbedPane homeTabbedWindow = new JTabbedPane();
 
     static UserProfile currentUser = new UserProfile();
 
 
-    public static void homeView(){
+    public static void homeView() throws IOException {
         UserDatabase userDatabase = null;
         try {
             userDatabase = new UserDatabase("AllUserProfileData.xml");
@@ -145,12 +146,16 @@ public class HomeView {
 
         //HomeTabbedWindow
 
-        JTabbedPane homeTabbedWindow = new JTabbedPane();
+        //JTabbedPane homeTabbedWindow = new JTabbedPane();
 
         //Recommended Games Tab
 
-        JPanel recGamesTab = new JPanel();
-        homeTabbedWindow.add("Recommended Games", recGamesTab);
+        JScrollPane recGamesTab = new JScrollPane();
+        GameDatabase mainGDB = new GameDatabase("bgg90Games.xml");
+        GameCollection master = mainGDB.getMasterList();
+        GameCollectionView gcv = new GameCollectionView(master);
+        recGamesTab = GameCollectionView.view();
+        homeTabbedWindow.add("All Games", recGamesTab);
 
         //Search Tab
 
@@ -161,14 +166,14 @@ public class HomeView {
         //Game Tab
         Game game = new Game("title", "thumbnailUrl", "imageUrl", "description", 0, "id", 0, 0, 0, 0);
         UserProfile gameUserProfile = new UserProfile();
-        Review gameReview = new Review(0, "text", gameUserProfile, "game name");
+        Review gameReview = new Review(0, "text", currentUser, "game name");
         for (int counter = 0; counter < 20; counter++)
         {
             game.addReview(gameReview);
         }
         JPanel gameTab = new JPanel();
         gameTab = GameView.gameView(game);
-        homeTabbedWindow.add("Game", gameTab);
+        //homeTabbedWindow.add("Game", gameTab);
 
         //Library Tab
 
@@ -178,7 +183,7 @@ public class HomeView {
 
         //Your Reviews Tab
 
-        UserProfile yourUserProfile = new UserProfile();
+       /* UserProfile yourUserProfile = new UserProfile();
         Review yourReview = new Review(0, "text",  yourUserProfile, "game name");
         for (int counter = 0; counter < 10; counter++)
         {
@@ -187,6 +192,8 @@ public class HomeView {
         JPanel reviewTab = new JPanel();
         reviewTab = ReviewView.reviewView(yourUserProfile);
         homeTabbedWindow.add("Your Reviews",reviewTab);
+
+        */
 
 
         //The Entire Frame
@@ -221,6 +228,7 @@ public class HomeView {
                     currentUsername.setText(currentUser.getUsername());
                     currentUsername.setVisible(true);
                     signOutButton.setVisible(true);
+                    openUserProfileTabs();
                 }
 
                 else {
@@ -275,9 +283,35 @@ public class HomeView {
 
 
     }
+    public static void openUserProfileTabs(){
+        JPanel reviewTab = new JPanel();
+        reviewTab = ReviewView.reviewView(currentUser);
+        homeTabbedWindow.add("Your Reviews", reviewTab);
+        LibraryView userLibrary = new LibraryView(currentUser.getLibrary());
+        JPanel libraryTab = new JPanel();
+        libraryTab = userLibrary.view();
+        homeTabbedWindow.add("Your library", libraryTab);
+    }
+    public static void closeUserProfileTabs(){
+        // homeTabbedWindow.remove("Your Reviews", reviewTab);
+        LibraryView userLibrary = new LibraryView(currentUser.getLibrary());
+        JPanel libraryTab = new JPanel();
+        libraryTab = userLibrary.view();
+        homeTabbedWindow.add("Your library", libraryTab);
+    }
+    public static void closeTab(JPanel tab){
+        homeTabbedWindow.remove(tab);
+    }
 
+    public static void openGameTab() throws IOException {
 
-    public static void main(String[] args) {
+        Game selectedGame = GameCollectionView.getSelectedGame();
+        JPanel gameTab = new JPanel();
+        gameTab = GameView.gameView(selectedGame);
+        homeTabbedWindow.add(selectedGame.getTitle(), gameTab);
+    }
+
+    public static void main(String[] args) throws IOException {
         homeView();
     }
 

@@ -10,8 +10,10 @@ import java.util.ArrayList;
 public class ImportUserProfiles{
     private Document xmlDocumentTree;
     private ArrayList<UserProfile> userList = null;
+
     public ImportUserProfiles (String inputFileName) throws FileNotFoundException, IOException{
         File inFile = new File(inputFileName);
+
         if(!inFile.exists()){
             throw new FileNotFoundException(inputFileName+" not found.");
         }
@@ -29,7 +31,7 @@ public class ImportUserProfiles{
 
     }
 
-    public ArrayList<UserProfile> retrieveUserList(){
+    public ArrayList<UserProfile> retrieveUserList() throws IOException {
         if (userList == null){
             userList = new ArrayList<>();
             Element items = xmlDocumentTree.getDocumentElement();
@@ -45,15 +47,19 @@ public class ImportUserProfiles{
         return userList;
     }
 
-    private void loadNextUser(Node xmlUserNode) {
+    private void loadNextUser(Node xmlUserNode) throws IOException {
         String username;
         String password;
-        String collectionName;
+        String collectionName = "empt";
         String reviewText;
         String reviewGame;
         String reviewScore;
         String collectionGame;
 
+        String inputFile = "bgg90Games.xml";
+        GameDatabase mainGDB = new GameDatabase(inputFile);
+        GameCollection master;
+        master = mainGDB.getMasterList();
 
         NodeList subNodes = xmlUserNode.getChildNodes();
         username = getNodeAttribute(subNodes, "name", "value");
@@ -64,6 +70,7 @@ public class ImportUserProfiles{
         UserProfile loadedUser = new UserProfile(username, password);
         userList.add(loadedUser);
         Node current;
+        GameCollection loadedCollection = new GameCollection(collectionName);
         for(int i = 0; i < subNodes.getLength(); i++){
             current = subNodes.item(i);
             if(current.getNodeName().equals("review")) {
@@ -73,20 +80,23 @@ public class ImportUserProfiles{
 
                 Review loadedReview = new Review(Integer.valueOf(reviewScore), reviewText, loadedUser, reviewGame);
                 loadedUser.addReview(loadedReview);
-                //use search function to find the game in the database
-                //loadedGame.addReview(loadedReview);
+                Search importGame = new Search(reviewGame, mainGDB.getTags() , master);
+                GameCollection results = importGame.search();
+                Game loadedGame = results.getGameByIndex(0);
+                loadedGame.addReview(loadedReview);
 
             }
             else if(current.getNodeName().equals("collection")){
                 collectionName = current.getAttributes().getNamedItem("value").getNodeValue();
-                //System.out.println(collectionName);
-               // GameCollection loadedCollection = new GameCollection(collectionName);
-               // loadedUser.getLibrary().addGameCollection(loadedCollection);
+                loadedCollection = new GameCollection(collectionName);
+                loadedUser.getLibrary().addGameCollection(loadedCollection);
             }
             else if(current.getNodeName().equals("game")){
                 collectionGame = current.getAttributes().getNamedItem("value").getNodeValue();
-                //use search function to find the game in the database
-                //loadedCollection.addGame(loadedGame);
+                Search importGame = new Search(collectionGame, mainGDB.getTags() , master);
+                GameCollection results = importGame.search();
+                Game loadedGame = results.getGameByIndex(0);
+                loadedCollection.addGame(loadedGame);
             }
         }
     }

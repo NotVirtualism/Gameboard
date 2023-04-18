@@ -203,14 +203,14 @@ public class GameView {
         gameDescriptionLabel.setBorder(new LineBorder(Color.black));
 
         // The Entire Frame
-
+/*
         JFrame gameFrame = new JFrame();
         gameFrame.setBounds(0,0,1920,1080);
         gameFrame.getContentPane().add(panel, BorderLayout.CENTER);
         gameFrame.pack();
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
-
+*/
         return panel;
     }
 
