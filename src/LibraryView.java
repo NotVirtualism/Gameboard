@@ -31,7 +31,7 @@ public class LibraryView{
             btn.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     GameCollectionView gc = new GameCollectionView(c);
-                    gc.view();
+                    frame.setContentPane(gc.view());
                 }
             });
             panel.add(btn);

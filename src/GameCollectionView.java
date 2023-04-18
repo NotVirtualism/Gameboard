@@ -24,10 +24,7 @@ public class GameCollectionView {
      * Add working action listeners to the buttons that link to their GameViews (needs to be completed).
      * Turn from void to returning a JScrollPane so it can be implemented INTO views and not be its own view.
      */
-    public static void view(){
-        JFrame frame = new JFrame("Game Collection");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    public static JScrollPane view(){
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0,7));
         Game current;
@@ -38,9 +35,7 @@ public class GameCollectionView {
             btn.setPreferredSize(new Dimension(200, 200));
             panel.add(btn);
         }
-        frame.setContentPane(new JScrollPane(panel));
-        frame.pack();
-        frame.setVisible(true);
+        return new JScrollPane(panel);
     }
 }
 
