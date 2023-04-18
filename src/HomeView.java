@@ -3,16 +3,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
+
 
 
 
 public class HomeView {
     private static final JTabbedPane homeTabbedWindow = new JTabbedPane();
+    static JPanel gameTab = new JPanel();
+
+    static boolean gameOpened;
 
     static UserProfile currentUser = new UserProfile();
 
-
+    /**
+     * Class Constructor for HomeView Screen
+     * The HomeView hold's the objects related to signing in
+     * The HomeView also holds a tabbed pane that displays the other views
+     * @throws IOException
+     */
     public static void homeView() throws IOException {
         UserDatabase userDatabase = null;
         try {
@@ -178,7 +186,7 @@ public class HomeView {
         //Library Tab
 
         JPanel libraryTab = new JPanel();
-        homeTabbedWindow.add("Your Library",libraryTab);
+
 
 
         //Your Reviews Tab
@@ -283,6 +291,13 @@ public class HomeView {
 
 
     }
+
+    /**
+     * Opens tabs that are related to the signed in UserProfile
+     * Method is called after a user successfully signs in
+     * Calls the constructors of the other views with the currentUser information
+     * Adds the views to the tabbed panel
+     */
     public static void openUserProfileTabs(){
         JPanel reviewTab = new JPanel();
         reviewTab = ReviewView.reviewView(currentUser);
@@ -292,23 +307,30 @@ public class HomeView {
         libraryTab = userLibrary.view();
         homeTabbedWindow.add("Your library", libraryTab);
     }
-    public static void closeUserProfileTabs(){
+
+    /**
+     * Closes tabs that are related to the previously signed-in user
+     */
+    public static void removeUserProfileTabs(){
         // homeTabbedWindow.remove("Your Reviews", reviewTab);
         LibraryView userLibrary = new LibraryView(currentUser.getLibrary());
         JPanel libraryTab = new JPanel();
         libraryTab = userLibrary.view();
         homeTabbedWindow.add("Your library", libraryTab);
     }
-    public static void closeTab(JPanel tab){
-        homeTabbedWindow.remove(tab);
-    }
+
 
     public static void openGameTab() throws IOException {
-
         Game selectedGame = GameCollectionView.getSelectedGame();
-        JPanel gameTab = new JPanel();
+
         gameTab = GameView.gameView(selectedGame);
         homeTabbedWindow.add(selectedGame.getTitle(), gameTab);
+        gameOpened = true;
+    }
+public static boolean getGameOpenStatus(){return gameOpened;}
+    public static void removeGameTab() throws IOException {
+
+        homeTabbedWindow.remove(gameTab);
     }
 
     public static void main(String[] args) throws IOException {
