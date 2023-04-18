@@ -43,7 +43,8 @@ public class GameCollection {
     }
 
     public Game getGameByIndex(int i){
-        return list.get(i);
+        Game game = list.get(i);
+        return game;
     }
 
     public int size(){

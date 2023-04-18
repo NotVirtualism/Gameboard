@@ -4,20 +4,20 @@
         <name value="User1"/>
         <password value = "12345"/>
         <review game="CATAN: Soccer Fever Scenario" score="6" value="This game was aight ig"/>
-        <review game="Clue: Star Wars" score="10" value="This game was awesome ig"/>
-        <review game="Monopoly" score="1" value="Garbo"/>
-        <review game="Tic-Tac-Toe" score="8" value="Underrated, people thinks it's a solved game but they haven't met me"/>
+        <review game="Star Wars: The Deckbuilding Game" score="10" value="This game was awesome ig"/>
+        <review game="Cascadia" score="1" value="Garbo"/>
+        <review game="Scythe" score="8" value="Underrated, people thinks it's a solved game but they haven't met me"/>
         <collection value="AllGames"/>
         <game value="CATAN: Soccer Fever Scenario"/>
-        <game value="Monopoly"/>
-        <game value="Tic-Tac-Toe"/>
-        <game value="Clue: Star Wars"/>
+        <game value="Cascadia"/>
+        <game value="Scythe"/>
+        <game value="Star Wars: The Deckbuilding Game"/>
         <collection value="IHateCatan"/>
         <game value="CATAN: Soccer Fever Scenario"/>
         <collection value="NotCatan"/>
-        <game value="Monopoly"/>
-        <game value="Tic-Tac-Toe"/>
-        <game value="Clue: Star Wars"/>
+        <game value="Cascadia"/>
+        <game value="Scythe"/>
+        <game value="Star Wars: The Deckbuilding Game"/>
     </item>
     <item value="UserProfile">
         <name value="User2"/>

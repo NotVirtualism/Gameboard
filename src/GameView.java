@@ -1,13 +1,17 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 public class GameView {
-    public GameView(Game g)
-    {
+    public GameView(Game g) throws IOException {
         gameView(g);
     }
-    public static JPanel gameView(Game game) {
+    public static JPanel gameView(Game game) throws IOException {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = screenSize.width;
@@ -203,14 +207,14 @@ public class GameView {
         gameDescriptionLabel.setBorder(new LineBorder(Color.black));
 
         // The Entire Frame
-
+/*
         JFrame gameFrame = new JFrame();
         gameFrame.setBounds(0,0,1920,1080);
         gameFrame.getContentPane().add(panel, BorderLayout.CENTER);
         gameFrame.pack();
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
-
+*/
         return panel;
     }
 

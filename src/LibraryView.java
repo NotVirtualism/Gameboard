@@ -18,7 +18,7 @@ public class LibraryView{
      * TODO:
      * Figure out a way to replace the current view/panel with the GameCollectionView and NOT popup a new window.
      */
-    public void view(){
+    public static JPanel view(){
         JFrame frame = new JFrame("Game Collection");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -31,13 +31,14 @@ public class LibraryView{
             btn.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     GameCollectionView gc = new GameCollectionView(c);
-                    gc.view();
+                    frame.setContentPane(gc.view());
                 }
             });
             panel.add(btn);
         }
-        frame.setContentPane(new JScrollPane(panel));
-        frame.pack();
-        frame.setVisible(true);
+        //frame.setContentPane(new JScrollPane(panel));
+        //frame.pack();
+       // frame.setVisible(true);
+        return panel;
     }
 }

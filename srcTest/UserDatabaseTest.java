@@ -17,6 +17,13 @@ public class UserDatabaseTest {
                     System.out.println(review.getScore());
                     System.out.println(review.getText());
                 }
+                for(GameCollection collection : user.getLibrary().getCollections()){
+                    System.out.println(collection.getName());
+                    for(Game game: collection.list){
+                        System.out.println(game.getTitle());
+                        System.out.println(game.getReviews().get(0).getText());
+                    }
+                }
 
             }
         } catch (FileNotFoundException e1) {

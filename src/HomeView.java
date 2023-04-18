@@ -4,15 +4,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 
 
 public class HomeView {
-
+    private static final JTabbedPane homeTabbedWindow = new JTabbedPane();
     static UserProfile currentUser = new UserProfile();
 
 
-    public static void homeView(){
+
+
+
+
+    public static void homeView() throws IOException {
         UserDatabase userDatabase = null;
         try {
             userDatabase = new UserDatabase("AllUserProfileData.xml");
@@ -145,12 +149,16 @@ public class HomeView {
 
         //HomeTabbedWindow
 
-        JTabbedPane homeTabbedWindow = new JTabbedPane();
+        //JTabbedPane homeTabbedWindow = new JTabbedPane();
 
         //Recommended Games Tab
 
         JPanel recGamesTab = new JPanel();
-        homeTabbedWindow.add("Recommended Games", recGamesTab);
+        GameDatabase mainGDB = new GameDatabase("bgg90Games.xml");
+        GameCollection master = mainGDB.getMasterList();
+        GameCollectionView gcv = new GameCollectionView(master);
+        recGamesTab = GameCollectionView.view();
+        homeTabbedWindow.add("All Games", recGamesTab);
 
         //Search Tab
 
@@ -159,35 +167,36 @@ public class HomeView {
 
 
         //Game Tab
-        Game game = new Game("title", "thumbnailUrl", "imageUrl", "description", 0, "id", 0, 0, 0, 0);
-        UserProfile gameUserProfile = new UserProfile();
-        Review gameReview = new Review(0, "text", gameUserProfile, "game name");
-        for (int counter = 0; counter < 20; counter++)
-        {
-            game.addReview(gameReview);
-        }
-        JPanel gameTab = new JPanel();
-        gameTab = GameView.gameView(game);
-        homeTabbedWindow.add("Game", gameTab);
+
+            Game game = new Game("title", "thumbnailUrl", "imageUrl", "description", 0, "id", 0, 0, 0, 0);
+            UserProfile gameUserProfile = new UserProfile();
+            Review gameReview = new Review(0, "text", currentUser, "game name");
+            for (int counter = 0; counter < 20; counter++) {
+                game.addReview(gameReview);
+            }
+            JPanel gameTab = new JPanel();
+            gameTab = GameView.gameView(game);
+            //homeTabbedWindow.add("Game", gameTab);
 
         //Library Tab
 
         JPanel libraryTab = new JPanel();
-        homeTabbedWindow.add("Your Library",libraryTab);
+       // homeTabbedWindow.add("Your Library",libraryTab);
 
 
         //Your Reviews Tab
+        //JPanel reviewTab = new JPanel();
+        //reviewTab = ReviewView.reviewView(currentUser);
+            /*UserProfile yourUserProfile = new UserProfile();
+            Review yourReview = new Review(0, "text", currentUser, "game name");
+            for (Review review : currentUser.getReviews()) {
+                yourUserProfile.addReview(review);
+            }
+            JPanel reviewTab = new JPanel();
+            reviewTab = ReviewView.reviewView(yourUserProfile);
+            homeTabbedWindow.add("Your Reviews", reviewTab);
 
-        UserProfile yourUserProfile = new UserProfile();
-        Review yourReview = new Review(0, "text",  yourUserProfile, "game name");
-        for (int counter = 0; counter < 10; counter++)
-        {
-            yourUserProfile.addReview(yourReview);
-        }
-        JPanel reviewTab = new JPanel();
-        reviewTab = ReviewView.reviewView(yourUserProfile);
-        homeTabbedWindow.add("Your Reviews",reviewTab);
-
+        }*/
 
         //The Entire Frame
 
@@ -200,6 +209,7 @@ public class HomeView {
 
         //Sign In Button Handling
         UserDatabase finalUserDatabase = userDatabase;
+
 
         signInButton.addActionListener(new ActionListener() {
             @Override
@@ -221,6 +231,9 @@ public class HomeView {
                     currentUsername.setText(currentUser.getUsername());
                     currentUsername.setVisible(true);
                     signOutButton.setVisible(true);
+                    openUserProfileTabs();
+
+
                 }
 
                 else {
@@ -254,6 +267,7 @@ public class HomeView {
                 }
             }
         });
+
         signOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -270,14 +284,41 @@ public class HomeView {
                 signInError.setVisible(true);
                 currentUsername.setVisible(false);
                 signOutButton.setVisible(false);
+
             }
         });
 
 
     }
+public static void openGameTab() throws IOException {
 
+    Game selectedGame = GameCollectionView.getSelectedGame();
+        JPanel gameTab = new JPanel();
+        gameTab = GameView.gameView(selectedGame);
+        homeTabbedWindow.add(selectedGame.getTitle(), gameTab);
+}
+    
+public static void openUserProfileTabs(){
+    JPanel reviewTab = new JPanel();
+    reviewTab = ReviewView.reviewView(currentUser);
+    homeTabbedWindow.add("Your Reviews", reviewTab);
+    LibraryView userLibrary = new LibraryView(currentUser.getLibrary());
+    JPanel libraryTab = new JPanel();
+    libraryTab = userLibrary.view();
+    homeTabbedWindow.add("Your library", libraryTab);
+}
+    public static void closeUserProfileTabs(){
+       // homeTabbedWindow.remove("Your Reviews", reviewTab);
+        LibraryView userLibrary = new LibraryView(currentUser.getLibrary());
+        JPanel libraryTab = new JPanel();
+        libraryTab = userLibrary.view();
+        homeTabbedWindow.add("Your library", libraryTab);
+    }
+public static void closeTab(JPanel tab){
+        homeTabbedWindow.remove(tab);
+}
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         homeView();
     }
 
