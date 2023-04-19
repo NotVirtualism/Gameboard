@@ -9,7 +9,7 @@ public class SearchView{
     ArrayList<JCheckBox> tagBoxes = new ArrayList<JCheckBox>();
     private String query;
     private ArrayList<String> tags = new ArrayList<String>();
-    private GameCollection results;
+    private static GameCollection results;
     private GameDatabase database = new GameDatabase("bgg90Games.xml");
     private JPanel panel = new JPanel();
 
@@ -51,7 +51,7 @@ public class SearchView{
         return new JScrollPane(panel);
     }
     
-    public GameCollection getResults()
+    public static GameCollection getResults()
     {
         return results;
     }

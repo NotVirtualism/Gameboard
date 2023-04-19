@@ -353,7 +353,7 @@ public class HomeView {
         }*/
 
 
-        GameCollection searchResults = Search.getSearchResults();
+        GameCollection searchResults = SearchView.getResults();
         resultsTab = new GameCollectionView(searchResults);
         homeTabbedWindow.add("Results", resultsTab.view());
         gameOpened = true;
