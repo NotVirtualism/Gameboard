@@ -27,7 +27,10 @@ public class GameCollection {
             }
         }
 
-        list.remove(gameIndex);
+        if (gameIndex > -1)
+        {
+            list.remove(gameIndex);
+        }
     }
 
     /* Get a game from a game collection */
