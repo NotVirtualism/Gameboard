@@ -11,7 +11,7 @@ public class GCViewTest {
             Search s = new Search("Ca", new ArrayList<String>(), master);
             GameCollection viewTest = s.search();
             GameCollectionView gcv = new GameCollectionView(viewTest);
-            gcv.view();
+            //gcv.view();
         } catch (FileNotFoundException e1) {
             System.err.println("Unable to open file: " + inputFile);
             System.err.println("Exiting program.");

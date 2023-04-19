@@ -88,7 +88,6 @@ public class ImportUserProfiles{
             }
             else if(current.getNodeName().equals("collection")){
                 collectionName = current.getAttributes().getNamedItem("value").getNodeValue();
-                //System.out.println(collectionName);
                 loadedCollection = new GameCollection(collectionName);
                 loadedUser.getLibrary().addGameCollection(loadedCollection);
             }

@@ -24,7 +24,9 @@ public class GameView {
 
         // Game Thumbnail
 
-        String gameThumbnailHolder = game.getThumbnailUrl();
+        String htmlThumbnail = String.format("<html><img src='%s'/><br/>%s", game.getThumbnailUrl(), "");
+
+        // String gameThumbnailHolder = game.getThumbnailUrl();
 
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
@@ -34,7 +36,7 @@ public class GameView {
         c.weighty = 0.1;
         c.gridy = 0;
 
-        JLabel gameThumbnailLabel = new JLabel(gameThumbnailHolder);
+        JLabel gameThumbnailLabel = new JLabel(htmlThumbnail);
         panel.add(gameThumbnailLabel, c);
         gameThumbnailLabel.setBorder(new LineBorder(Color.black));
 
@@ -56,7 +58,9 @@ public class GameView {
 
         // Game Picture
 
-        String gamePictureHolder = game.getImageUrl();
+        String htmlImage = String.format("<html><img src='%s'/><br/>%s", game.getImageUrl(), "");
+
+        // String gamePictureHolder = game.getImageUrl();
 
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
@@ -66,7 +70,7 @@ public class GameView {
         c.weighty = 0.1;
         c.gridy = 6;
 
-        JLabel gamePictureLabel = new JLabel(gamePictureHolder);
+        JLabel gamePictureLabel = new JLabel(htmlImage);
         panel.add(gamePictureLabel, c);
         gamePictureLabel.setBorder(new LineBorder(Color.black));
 
@@ -175,20 +179,6 @@ public class GameView {
         panel.add(scrollPane, c);
         scrollPane.getViewport().setPreferredSize(new Dimension(40, 40));
         gameReviewsLabel.setBorder(new LineBorder(Color.black));
-
-        // Game Rating - UPDATE: Likely dropping using rank - Logan
-        /*
-        String gameRankHolder = String.valueOf(game.getRank());
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridwidth = 1;
-        c.gridy = 2;
-
-        JLabel gameRankLabel = new JLabel(gameRankHolder);
-        panel.add(gameRankLabel, c);
-        gameRankLabel.setBorder(new LineBorder(Color.black));
-        */
 
         // Game Description
 

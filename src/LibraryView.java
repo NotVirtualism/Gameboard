@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class LibraryView{
     private static Library gameLib;
@@ -17,8 +16,10 @@ public class LibraryView{
      * Clicking a button pops up that GameCollectionView in a new window.
      * TODO:
      * Figure out a way to replace the current view/panel with the GameCollectionView and NOT popup a new window.
+     *
+     * @return
      */
-    public static JPanel view(){
+    public JPanel view(){
         JFrame frame = new JFrame("Game Collection");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -36,9 +37,11 @@ public class LibraryView{
             });
             panel.add(btn);
         }
-        //frame.setContentPane(new JScrollPane(panel));
-        //frame.pack();
-       // frame.setVisible(true);
+        /*
+        frame.setContentPane(new JScrollPane(panel));
+        frame.pack();
+        frame.setVisible(true);
+         */
         return panel;
     }
 }
