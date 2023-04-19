@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -58,7 +60,7 @@ public class Review {
     }
 
     public String toString() {
-        return "<html>" + Integer.toString(reviewScore) + " " + gameName + "<br/>" + reviewText + "<br/>" + user;
+        return "<html>" + Integer.toString(reviewScore) + " " + gameName + "<br/>" + reviewText + "<br/>" + user.getUsername();
     }
 
 
