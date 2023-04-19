@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ public class HomeView {
     static boolean gameOpened;
 
     static UserProfile currentUser = new UserProfile();
+    static String fileName = "AllUserProfileData.xml";
 
     /**
      * Class Constructor for HomeView Screen
@@ -24,7 +26,7 @@ public class HomeView {
     public static void homeView() throws IOException {
         UserDatabase userDatabase = null;
         try {
-            userDatabase = new UserDatabase("AllUserProfileData.xml");
+            userDatabase = new UserDatabase(fileName);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -286,6 +288,13 @@ public class HomeView {
                 signInError.setVisible(true);
                 currentUsername.setVisible(false);
                 signOutButton.setVisible(false);
+                try {
+                    new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ParserConfigurationException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -319,18 +328,22 @@ public class HomeView {
         homeTabbedWindow.add("Your library", libraryTab);
     }
 
+    /**
+     * Adds a Game View to the Tabbed Pane
+     * Method is called when clicking a game in a GameCollection
+     * if a game is already open, closes the last game tab
+     * @throws IOException
+     */
 
     public static void openGameTab() throws IOException {
+        if(gameOpened) {
+            homeTabbedWindow.remove(gameTab);
+        }
         Game selectedGame = GameCollectionView.getSelectedGame();
 
         gameTab = GameView.gameView(selectedGame);
         homeTabbedWindow.add(selectedGame.getTitle(), gameTab);
         gameOpened = true;
-    }
-public static boolean getGameOpenStatus(){return gameOpened;}
-    public static void removeGameTab() throws IOException {
-
-        homeTabbedWindow.remove(gameTab);
     }
 
     public static void main(String[] args) throws IOException {

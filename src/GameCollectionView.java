@@ -49,9 +49,6 @@ public class GameCollectionView {
                     try {
 
                         selectedGame = gameList.getGameByIndex(index);
-                        if(HomeView.getGameOpenStatus()){
-                            HomeView.removeGameTab();
-                        }
                         HomeView.openGameTab();
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);

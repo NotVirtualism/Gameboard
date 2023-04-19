@@ -3,7 +3,7 @@ import java.io.IOException;
 
 public class UserDatabaseTest {
     public static void main(String[] args) {
-        String inputFile = "AllUserProfileData.xml";
+        String inputFile = "Test2.xml";
         try {
             UserDatabase mainUDB = new UserDatabase(inputFile);
             System.out.println(mainUDB.getAllUsers().size() + " Users read in.");

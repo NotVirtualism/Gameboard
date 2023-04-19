@@ -16,8 +16,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class UserbaseTest {
-        public static void main(String args[]) {
-            String outputFile = "Test2.xml";
+        public static void main(String args[]) throws ParserConfigurationException, TransformerConfigurationException {
+            String outputFile = "AllUserData.xml";
             try {
                 ArrayList<Review> reviewListings = new ArrayList<Review>();
                 UserProfile testBot = new UserProfile("Bip", "123");
@@ -52,8 +52,10 @@ public class UserbaseTest {
                 testGameCollection3.addGame(testGame3);
 
                 //String outputFileName, String user, String pass, ArrayList<Review> reviews, Library library
-                ExportUserProfile test = new ExportUserProfile(outputFile, testBot.getUsername(), testBot.getPassword(), reviewListings, testLibrary);
+                UserDatabase udb = new UserDatabase("AllUserProfileData.xml");
+                ExportUserProfile test = new ExportUserProfile(outputFile, udb.getAllUsers());
                 System.out.println("Check Test File");
+
 
             } catch (FileNotFoundException e1) {
                 System.err.println("Unable to open file: " + outputFile);
