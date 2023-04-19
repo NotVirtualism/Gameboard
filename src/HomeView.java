@@ -10,12 +10,17 @@ import java.io.IOException;
 
 public class HomeView {
     private static final JTabbedPane homeTabbedWindow = new JTabbedPane();
-    static JPanel gameTab = new JPanel();
+    private static JPanel gameTab = new JPanel();
 
-    static boolean gameOpened;
+    private static GameCollectionView resultsTab;
+    private static JPanel libraryTab = new JPanel();
 
-    static UserProfile currentUser = new UserProfile();
-    static String fileName = "AllUserProfileData.xml";
+    private static boolean gameOpened;
+    private static boolean resultsOpened;
+    private static UserProfile currentUser = new UserProfile();
+
+    private static JPanel reviewTab = new JPanel();
+    private static String fileName = "AllUserProfileData.xml";
 
     /**
      * Class Constructor for HomeView Screen
@@ -269,6 +274,11 @@ public class HomeView {
                     usernameField.setText("");
                     passwordField.setText("");
                     signInError.setText("");
+                    try {
+                        new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
+                    } catch (IOException | ParserConfigurationException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         });
@@ -288,13 +298,8 @@ public class HomeView {
                 signInError.setVisible(true);
                 currentUsername.setVisible(false);
                 signOutButton.setVisible(false);
-                try {
-                    new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                } catch (ParserConfigurationException ex) {
-                    throw new RuntimeException(ex);
-                }
+                removeUserProfileTabs();
+
             }
         });
 
@@ -308,11 +313,10 @@ public class HomeView {
      * Adds the views to the tabbed panel
      */
     public static void openUserProfileTabs(){
-        JPanel reviewTab = new JPanel();
+
         reviewTab = ReviewView.reviewView(currentUser);
         homeTabbedWindow.add("Your Reviews", reviewTab);
         LibraryView userLibrary = new LibraryView(currentUser.getLibrary());
-        JPanel libraryTab = new JPanel();
         libraryTab = userLibrary.view();
         homeTabbedWindow.add("Your library", libraryTab);
     }
@@ -322,10 +326,8 @@ public class HomeView {
      */
     public static void removeUserProfileTabs(){
         // homeTabbedWindow.remove("Your Reviews", reviewTab);
-        LibraryView userLibrary = new LibraryView(currentUser.getLibrary());
-        JPanel libraryTab = new JPanel();
-        libraryTab = userLibrary.view();
-        homeTabbedWindow.add("Your library", libraryTab);
+        homeTabbedWindow.remove(libraryTab);
+        homeTabbedWindow.remove(reviewTab);
     }
 
     /**
@@ -343,6 +345,18 @@ public class HomeView {
 
         gameTab = GameView.gameView(selectedGame);
         homeTabbedWindow.add(selectedGame.getTitle(), gameTab);
+        gameOpened = true;
+    }
+
+    public static void openSearchResults() throws IOException {
+        /*if(resultsOpened) {
+            homeTabbedWindow.remove(resultsTab);
+        }*/
+
+
+        GameCollection searchResults = Search.getSearchResults();
+        resultsTab = new GameCollectionView(searchResults);
+        homeTabbedWindow.add("Results", resultsTab.view());
         gameOpened = true;
     }
 
