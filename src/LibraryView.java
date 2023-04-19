@@ -21,7 +21,6 @@ public class LibraryView{
      */
     public JPanel view(){
         JFrame frame = new JFrame("Game Collection");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0,7));
@@ -33,6 +32,8 @@ public class LibraryView{
                 public void actionPerformed(ActionEvent e){
                     GameCollectionView gc = new GameCollectionView(c);
                     frame.setContentPane(gc.view());
+                    frame.pack();
+                    frame.setVisible(true);
                 }
             });
             panel.add(btn);
