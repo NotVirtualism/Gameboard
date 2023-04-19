@@ -173,9 +173,8 @@ public class HomeView {
         homeTabbedWindow.add("All Games", recGamesTab);
 
         //Search Tab
-
-        JPanel searchTab = new JPanel();
-        homeTabbedWindow.add("Search",searchTab);
+        SearchView sv = new SearchView(mainGDB.getTags());
+        homeTabbedWindow.add("Search",sv.view());
 
 
         //Game Tab
