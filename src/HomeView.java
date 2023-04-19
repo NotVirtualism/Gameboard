@@ -348,15 +348,16 @@ public class HomeView {
     }
 
     public static void openSearchResults() throws IOException {
-        /*if(resultsOpened) {
-            homeTabbedWindow.remove(resultsTab);
-        }*/
+        System.out.println(resultsOpened);
+        if(resultsOpened) {
+            homeTabbedWindow.remove(resultsTab.view());
+        }
 
 
         GameCollection searchResults = SearchView.getResults();
         resultsTab = new GameCollectionView(searchResults);
         homeTabbedWindow.add("Results", resultsTab.view());
-        gameOpened = true;
+        resultsOpened = true;
     }
 
     public static void main(String[] args) throws IOException {
