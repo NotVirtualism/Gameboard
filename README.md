@@ -1,4 +1,6 @@
 # Gameboard
+Group 8
+Members: Charlie Perkins, Logan Parker, Blair Stafford, and Anastasia Meidinger
 Organizational and wishlisting tool for a database of board games.
 Made as a group class project.
 This project was created in IntelliJ. The version is JavaSDK 17.
