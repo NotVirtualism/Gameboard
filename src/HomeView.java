@@ -11,7 +11,7 @@ import java.io.IOException;
 public class HomeView {
     private static final JTabbedPane homeTabbedWindow = new JTabbedPane();
     private static JPanel gameTab = new JPanel();
-
+    private static JScrollPane recGamesTab = new JScrollPane();
     private static GameCollectionView resultsTab;
     private static JPanel libraryTab = new JPanel();
 
@@ -165,12 +165,11 @@ public class HomeView {
 
         //Recommended Games Tab
 
-        JScrollPane recGamesTab = new JScrollPane();
+
         GameDatabase mainGDB = new GameDatabase("bgg90Games.xml");
-        GameCollection master = mainGDB.getMasterList();
-        GameCollectionView gcv = new GameCollectionView(master);
-        recGamesTab = GameCollectionView.view();
-        homeTabbedWindow.add("All Games", recGamesTab);
+
+        recGamesTab = new RecommendedGames(currentUser).getRecommendView().view();
+        homeTabbedWindow.add("Recommended Games", recGamesTab);
 
         //Search Tab
         SearchView sv = new SearchView(mainGDB.getTags());
@@ -243,6 +242,20 @@ public class HomeView {
                     currentUsername.setVisible(true);
                     signOutButton.setVisible(true);
                     openUserProfileTabs();
+                    homeTabbedWindow.remove(recGamesTab);
+                    try {
+                        recGamesTab = new RecommendedGames(currentUser).getRecommendView().view();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    homeTabbedWindow.add("Recommended Games", recGamesTab);
+                    try {
+                        new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (ParserConfigurationException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
 
                 else {
@@ -270,8 +283,6 @@ public class HomeView {
                 if (!dupeAccount) {
                     UserProfile registeredUser = new UserProfile(usernameInput, passwordInput);
                     finalUserDatabase.addUserProfile(registeredUser);
-                    usernameField.setText("");
-                    passwordField.setText("");
                     signInError.setText("");
                     try {
                         new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
@@ -280,6 +291,7 @@ public class HomeView {
                     }
                 }
             }
+
         });
         signOutButton.addActionListener(new ActionListener() {
             @Override
@@ -298,7 +310,13 @@ public class HomeView {
                 currentUsername.setVisible(false);
                 signOutButton.setVisible(false);
                 removeUserProfileTabs();
-
+                try {
+                    new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ParserConfigurationException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
