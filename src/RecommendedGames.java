@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class RecommendedGames {
     ArrayList<ArrayList<String>> games = new ArrayList<>();
 
@@ -12,10 +13,10 @@ public class RecommendedGames {
     static GameCollection recGames = new GameCollection("Recommended Games");
 
 
-
     public RecommendedGames(UserProfile user) throws IOException {
 
         GameDatabase allGames = new GameDatabase("bgg90games.xml");
+
         if (user.getSignInStatus()) {
             GameCollection allUserGames = user.getLibrary().getGameCollectionByIndex(0);
             int count;
@@ -42,23 +43,13 @@ public class RecommendedGames {
             }
             Search recGamesSearch = new Search("", favoriteTags, allGames.getMasterList());
             recGames = recGamesSearch.search();
-        }
-        else {
+        } else {
             recGames = allGames.getMasterList();
         }
     }
 
-    public static GameCollectionView getRecommendView(){
+    public static GameCollectionView getRecommendView() {
         GameCollectionView recGameView = new GameCollectionView(recGames);
         return recGameView;
-    }
-
-
-
-    public static void main(String[] args) throws IOException {
-        UserDatabase ud = new UserDatabase("AllUserProfileData.xml");
-        System.out.println("Your Favorite Tags Are:");
-        ud.getAllUsers().get(0).setSignInStatus(true);
-        new RecommendedGames(ud.getAllUsers().get(0));
     }
 }

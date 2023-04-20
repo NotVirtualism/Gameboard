@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 
+
 public class TagListComparator implements Comparator<ArrayList<String>> {
 
     /**
-     * compares the averages between the two students and sorts them with the higher average on top
+     * compares the number of times a tag appears and returns a list with the top 3
      *
      * @param l1 the first object to be compared.
      * @param l2 the second object to be compared.

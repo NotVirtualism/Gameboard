@@ -251,9 +251,7 @@ public class HomeView {
                     homeTabbedWindow.add("Recommended Games", recGamesTab);
                     try {
                         new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (ParserConfigurationException ex) {
+                    } catch (IOException | ParserConfigurationException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
@@ -315,6 +313,18 @@ public class HomeView {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 } catch (ParserConfigurationException ex) {
+                    throw new RuntimeException(ex);
+                }
+                homeTabbedWindow.remove(recGamesTab);
+                try {
+                    recGamesTab = new RecommendedGames(currentUser).getRecommendView().view();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                homeTabbedWindow.add("Recommended Games", recGamesTab);
+                try {
+                    new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
+                } catch (IOException | ParserConfigurationException ex) {
                     throw new RuntimeException(ex);
                 }
             }
