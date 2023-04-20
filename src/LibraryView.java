@@ -20,10 +20,30 @@ public class LibraryView{
      * @return
      */
     public JPanel view(){
-        JFrame frame = new JFrame("Game Collection");
-
+        //JFrame frame = new JFrame("Game Collection");
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0,7));
+        JButton newLib = new JButton("Add Collection");
+
+        newLib.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                JFrame subFrame = new JFrame("Add Collection");
+                subFrame.setSize(800, 400);
+
+                JPanel subP = new JPanel();
+                subP.add(new JLabel("Enter Collection Name: "));
+                JTextField input = new JTextField();
+                JButton enter = new JButton("Enter");
+                subP.add(input);
+                subP.add(enter);
+                subFrame.setContentPane(subP);
+                subFrame.pack();
+                subFrame.setVisible(true);
+            }
+        });
+        panel.add(newLib);
+
         Game current;
         for(GameCollection c : gameLib.getCollections()){
             JButton btn = new JButton(c.getName());
@@ -31,9 +51,9 @@ public class LibraryView{
             btn.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     GameCollectionView gc = new GameCollectionView(c);
-                    frame.setContentPane(gc.view());
+                    /*frame.setContentPane(gc.view());
                     frame.pack();
-                    frame.setVisible(true);
+                    frame.setVisible(true);*/
                 }
             });
             panel.add(btn);
