@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Arrays;
 
 public class Search {
 
@@ -31,27 +32,28 @@ public class Search {
             }
         }
 
-        ArrayList<String> tempTagList = new ArrayList<String>();
-        for (int m = 0; m < selectedTags.size(); m++)
+        GameCollection tempTagList = new GameCollection("TempResults");;
+        for (int m = 0; m < results.size(); m++)
         {
-            tempTagList.add(selectedTags.get(m));
+            tempTagList.addGame(results.getGameByIndex(m));
         }
 
+        int tempResultsSize = results.size();
         ArrayList<String> tempGameTags = new ArrayList<String>();
         //Narrows down by tag
         boolean check = false;
         if (selectedTags.size() > 0 && results.size() > 0)
         {
             Game tempGame;
-            for (int i = 0; i < results.size(); i++)
+            for (int i = 0; i < tempResultsSize; i++)
             {
-                tempGame = results.getGameByIndex(i);
+                tempGame = tempTagList.getGameByIndex(i);
                 tempGameTags = tempGame.getTags();
-                for (int j = 0; j < selectedTags.size(); j++)
+                for (int j = 0; j < tempGameTags.size(); j++)
                 {
-                    for (int k = 0; k < tempGameTags.size(); k++)
+                    for (int k = 0; k < selectedTags.size(); k++)
                     {
-                        if (selectedTags.get(j).equals(tempGameTags.get(k)))
+                        if (tempGameTags.get(j).equals(selectedTags.get(k)))
                         {
                             check = true;
                         }
@@ -102,6 +104,9 @@ public class Search {
 
                 checkGameIn = false;
             }
+
+
+
         }
 
         return results;
