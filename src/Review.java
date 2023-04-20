@@ -60,7 +60,7 @@ public class Review {
     }
 
     public String toString() {
-        return "<html>" + Integer.toString(reviewScore) + " " + gameName + "<br/>" + reviewText + "<br/>" + user.getUsername();
+        return "<html>" +"Score: " + Integer.toString(reviewScore) + " " + "Game: " + gameName + "<br/>" + "Review: " + reviewText + "<br/>" + "User: " + user.getUsername() + "<br/>";
     }
 
 

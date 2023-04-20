@@ -114,18 +114,42 @@ public class GameView {
         addReviewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String chooseRating = "Choose rating:";
+                String chooseRating = "Choose rating";
+                JPanel reviewPanel = new JPanel();
                 JLabel ratingLabel = new JLabel(chooseRating);
+                reviewPanel.add(ratingLabel);
 
                 String[] ratingString = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
                 JComboBox ratingList = new JComboBox(ratingString);
+                reviewPanel.add(ratingList);
 
-                JTextField textField = new JTextField("Type your review and press enter", 20);
+                JTextField textField = new JTextField("Type your review", 20);
+                reviewPanel.add(textField);
+
+                JButton addReviewButton = new JButton("Click to add your review");
+
+                // Should this only work if the user is logged in?
+
+                addReviewButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // add selected rating to review
+                        int value = Integer.parseInt(ratingList.getSelectedItem().toString());
+
+                        // add review text to review
+                        String text = textField.getText();
+
+                        Review newReview = new Review(value, text, user, game.getTitle());
+                        game.addReview(newReview);
+                    }
+                    });
+
+                reviewPanel.add(addReviewButton);
+
+
 
                 JFrame ratingFrame = new JFrame();
-                ratingFrame.add(ratingLabel, BorderLayout.NORTH);
-                ratingFrame.add(ratingList, BorderLayout.CENTER);
-                ratingFrame.add(textField, BorderLayout.SOUTH);
+                ratingFrame.add(reviewPanel);
                 ratingFrame.setLocation(screenWidth / 2, screenHeight / 2);
                 ratingFrame.pack();
                 ratingFrame.setVisible(true);
@@ -225,7 +249,10 @@ public class GameView {
             {
                 gameReviewsHolder = gameReviewsHolder + reviewsHolder.get(counter).toString();
             }
-            gameReviewsHolder = gameReviewsHolder + "<br/>" + reviewsHolder.get(counter).toString();
+            else
+            {
+                gameReviewsHolder = gameReviewsHolder + "<br/>" + reviewsHolder.get(counter).toString();
+            }
         }
 
         JLabel gameReviewsLabel = new JLabel(gameReviewsHolder);

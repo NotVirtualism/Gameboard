@@ -18,6 +18,7 @@ public class GameCollectionView {
         gameList = gc;
     }
 
+
     /**
      * Creates a view for all the games. Turns every game in gameList into a button and throws them into a
      * scrollable grid.
