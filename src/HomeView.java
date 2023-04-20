@@ -185,7 +185,7 @@ public class HomeView {
             game.addReview(gameReview);
         }
         JPanel gameTab = new JPanel();
-        gameTab = GameView.gameView(game);
+        gameTab = GameView.gameView(game, currentUser);
         //homeTabbedWindow.add("Game", gameTab);
 
         //Library Tab
@@ -360,7 +360,7 @@ public class HomeView {
         }
         Game selectedGame = GameCollectionView.getSelectedGame();
 
-        gameTab = GameView.gameView(selectedGame);
+        gameTab = GameView.gameView(selectedGame, currentUser);
         homeTabbedWindow.add(selectedGame.getTitle(), gameTab);
         gameOpened = true;
     }
