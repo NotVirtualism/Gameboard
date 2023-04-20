@@ -1,17 +1,20 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 public class GameView {
-    public GameView(Game g) throws IOException {
-        gameView(g);
+    private UserProfile user;
+    public GameView(Game g, UserProfile u) throws IOException {
+        gameView(g, u);
     }
-    public static JPanel gameView(Game game) throws IOException {
+    public static JPanel gameView(Game game, UserProfile user) throws IOException {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = screenSize.width;
@@ -24,9 +27,7 @@ public class GameView {
 
         // Game Thumbnail
 
-        String htmlThumbnail = String.format("<html><img src='%s'/><br/>%s", game.getThumbnailUrl(), "");
-
-        // String gameThumbnailHolder = game.getThumbnailUrl();
+        String htmlThumbnail = String.format("<html><img src='%s'/><br/>%s", game.getThumbnailUrl(), game.getTitle());
 
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
@@ -56,36 +57,89 @@ public class GameView {
         panel.add(gameNameLabel, c);
         gameNameLabel.setBorder(new LineBorder(Color.black));
 
-        // Game Picture
-
-        String htmlImage = String.format("<html><img src='%s'/><br/>%s", game.getImageUrl(), "");
-
-        // String gamePictureHolder = game.getImageUrl();
-
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 0;
-        c.gridwidth = 8;
-        c.gridheight = 8;
-        c.weightx = 0.1;
-        c.weighty = 0.1;
-        c.gridy = 6;
-
-        JLabel gamePictureLabel = new JLabel(htmlImage);
-        panel.add(gamePictureLabel, c);
-        gamePictureLabel.setBorder(new LineBorder(Color.black));
-
         // Library Button
 
         JButton addToLibraryButton = new JButton("Add to library");
 
+        // needs to have buttons to choose which collection
+        // buttons for each collection (does this in library view)
+        // Reviews: call game.getreviews, which returns list of all reviews attached to game
+        // For review in review list
+
+        addToLibraryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String chooseCollection = "Choose collection";
+
+                JLabel collectionLabel = new JLabel(chooseCollection);
+                JFrame libraryFrame = new JFrame();
+                JPanel jpanel = new JPanel();
+                jpanel.add(collectionLabel);
+
+                Library l = user.getLibrary();
+
+                for(GameCollection c : l.getCollections()){
+                    JButton btn = new JButton(c.getName());
+
+                    btn.setPreferredSize(new Dimension(200, 200));
+                    btn.addActionListener(new ActionListener(){
+                        public void actionPerformed(ActionEvent e){
+                            c.addGame(game);
+                        }
+                    });
+                    jpanel.add(btn);
+                }
+
+                libraryFrame.add(jpanel, BorderLayout.CENTER);
+                libraryFrame.pack();
+                libraryFrame.setLocation(screenWidth / 2, screenHeight / 2);
+                libraryFrame.setVisible(true);
+
+            }
+        });
+
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 4;
-        c.gridwidth = 6;
+        c.gridwidth = 3;
         c.gridheight = 2;
         c.weightx = 0.3;
         c.weighty = 0.1;
         c.gridy = 0;
         panel.add(addToLibraryButton, c);
+
+        // Review Button
+
+        JButton addReviewButton = new JButton("Add review");
+
+        addReviewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String chooseRating = "Choose rating:";
+                JLabel ratingLabel = new JLabel(chooseRating);
+
+                String[] ratingString = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+                JComboBox ratingList = new JComboBox(ratingString);
+
+                JTextField textField = new JTextField("Type your review and press enter", 20);
+
+                JFrame ratingFrame = new JFrame();
+                ratingFrame.add(ratingLabel, BorderLayout.NORTH);
+                ratingFrame.add(ratingList, BorderLayout.CENTER);
+                ratingFrame.add(textField, BorderLayout.SOUTH);
+                ratingFrame.setLocation(screenWidth / 2, screenHeight / 2);
+                ratingFrame.pack();
+                ratingFrame.setVisible(true);
+            }
+        });
+
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 8;
+        c.gridwidth = 3;
+        c.gridheight = 2;
+        c.weightx = 0.2;
+        c.weighty = 0.1;
+        c.gridy = 0;
+        panel.add(addReviewButton, c);
 
         // Game Stats
 
@@ -197,14 +251,14 @@ public class GameView {
         gameDescriptionLabel.setBorder(new LineBorder(Color.black));
 
         // The Entire Frame
-/*
-        JFrame gameFrame = new JFrame();
-        gameFrame.setBounds(0,0,1920,1080);
-        gameFrame.getContentPane().add(panel, BorderLayout.CENTER);
-        gameFrame.pack();
-        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameFrame.setVisible(true);
-*/
+
+ //       JFrame gameFrame = new JFrame();
+ //       gameFrame.setBounds(0,0,1920,1080);
+ //       gameFrame.getContentPane().add(panel, BorderLayout.CENTER);
+ //       gameFrame.pack();
+ //       gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ //       gameFrame.setVisible(true);
+
         return panel;
     }
 
