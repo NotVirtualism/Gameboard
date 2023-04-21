@@ -71,6 +71,7 @@ public class ImportUserProfiles{
         userList.add(loadedUser);
         Node current;
         GameCollection loadedCollection = new GameCollection(collectionName);
+        ArrayList<String> noTags =new ArrayList<>();
         for(int i = 0; i < subNodes.getLength(); i++){
             current = subNodes.item(i);
             if(current.getNodeName().equals("review")) {
@@ -78,9 +79,9 @@ public class ImportUserProfiles{
                 reviewGame = current.getAttributes().getNamedItem("game").getNodeValue();
                 reviewScore = current.getAttributes().getNamedItem("score").getNodeValue();
 
-                Review loadedReview = new Review(Integer.valueOf(reviewScore), reviewText, loadedUser, reviewGame);
+                Review loadedReview = new Review(Integer.parseInt(reviewScore), reviewText, loadedUser, reviewGame);
                 loadedUser.addReview(loadedReview);
-                Search importGame = new Search(reviewGame, mainGDB.getTags() , master);
+                Search importGame = new Search(reviewGame, noTags , master);
                 GameCollection results = importGame.search();
                 Game loadedGame = results.getGameByIndex(0);
                 loadedGame.addReview(loadedReview);
@@ -93,7 +94,7 @@ public class ImportUserProfiles{
             }
             else if(current.getNodeName().equals("game")){
                 collectionGame = current.getAttributes().getNamedItem("value").getNodeValue();
-                Search importGame = new Search(collectionGame, mainGDB.getTags() , master);
+                Search importGame = new Search(collectionGame, noTags , master);
                 GameCollection results = importGame.search();
                 Game loadedGame = results.getGameByIndex(0);
                 loadedCollection.addGame(loadedGame);

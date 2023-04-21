@@ -114,14 +114,14 @@ public class UserProfile {
     /**
      * Method Used for logging in a user
      * Checks the input information to find the user with a matching username and password
+     * Returns the signed-in user or the default user if the method fails to find a matching username and password
      * @param username1
      * @param password1
-     * @param uDatabase
      * @return
      */
-    public  UserProfile logIn(String username1, String password1, UserDatabase uDatabase){
+    public  UserProfile logIn(String username1, String password1){
 
-        for (UserProfile user: uDatabase.getAllUsers()){
+        for (UserProfile user: UserDatabase.getAllUsers()){
 
             if (username1.equals(user.getUsername())){
                 if (password1.equals(user.getPassword())){
@@ -131,7 +131,7 @@ public class UserProfile {
                 }
             }
         }
-        return uDatabase.getDefaultUser();
+        return UserDatabase.getDefaultUser();
     }
 
 }

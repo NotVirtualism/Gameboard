@@ -12,33 +12,23 @@ public class HomeView {
     private static final JTabbedPane homeTabbedWindow = new JTabbedPane();
     private static JPanel gameTab = new JPanel();
     private static JScrollPane recGamesTab = new JScrollPane();
-    private static GameCollectionView resultsTab;
+    private static JScrollPane resultsTab = new JScrollPane();
     private static JPanel libraryTab = new JPanel();
-
     private static boolean gameOpened;
     private static boolean resultsOpened;
     private static UserProfile currentUser = new UserProfile();
-
     private static JPanel reviewTab = new JPanel();
-    private static String fileName = "AllUserProfileData.xml";
+
 
     /**
      * Class Constructor for HomeView Screen
      * The HomeView hold's the objects related to signing in
      * The HomeView also holds a tabbed pane that displays the other views
-     * @throws IOException
      */
     public static void homeView() throws IOException {
-        UserDatabase userDatabase = null;
-        try {
-            userDatabase = new UserDatabase(fileName);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        new UserDatabase();
 
         //Buttons and Text Fields
-
 
         JButton signInButton = new JButton("Sign In");
         JButton signOutButton = new JButton("Sign Out");
@@ -50,7 +40,6 @@ public class HomeView {
         JLabel usernameText = new JLabel("Username:");
         JLabel passwordText = new JLabel("Password:");
         JLabel currentUsername = new JLabel();
-
 
         //HomeBar
 
@@ -70,6 +59,7 @@ public class HomeView {
         homeBar.add(homeButton, homeBarRestraints);
 
         //Username Text Formatting
+
         homeBarRestraints.ipady = 40;
         homeBarRestraints.weightx = 0.005;
         homeBarRestraints.gridwidth = 1;
@@ -79,6 +69,7 @@ public class HomeView {
         homeBar.add(usernameText, homeBarRestraints);
 
         //Password Text Formatting
+
         homeBarRestraints.ipady = 40;
         homeBarRestraints.weightx = 0.005;
         homeBarRestraints.gridwidth = 1;
@@ -128,6 +119,7 @@ public class HomeView {
         homeBar.add(createAccountButton, homeBarRestraints);
 
         //Login Related Error Messages
+
         homeBarRestraints.ipady = 40;
         homeBarRestraints.weightx = 0.2;
         homeBarRestraints.gridwidth = 1;
@@ -158,56 +150,25 @@ public class HomeView {
         homeBar.add(currentUsername, homeBarRestraints);
         signOutButton.setVisible(false);
 
-
-        //HomeTabbedWindow
-
-        //JTabbedPane homeTabbedWindow = new JTabbedPane();
-
         //Recommended Games Tab
 
-
         GameDatabase mainGDB = new GameDatabase("bgg90Games.xml");
-
         recGamesTab = new RecommendedGames(currentUser).getRecommendView().view();
         homeTabbedWindow.add("Recommended Games", recGamesTab);
 
         //Search Tab
+
         SearchView sv = new SearchView(mainGDB.getTags());
         homeTabbedWindow.add("Search",sv.view());
 
-
         //Game Tab
+
         Game game = new Game("title", "thumbnailUrl", "imageUrl", "description", 0, "id", 0, 0, 0, 0);
-        UserProfile gameUserProfile = new UserProfile();
         Review gameReview = new Review(0, "text", currentUser, "game name");
         for (int counter = 0; counter < 20; counter++)
         {
             game.addReview(gameReview);
         }
-        JPanel gameTab = new JPanel();
-        gameTab = GameView.gameView(game, currentUser);
-        //homeTabbedWindow.add("Game", gameTab);
-
-        //Library Tab
-
-        JPanel libraryTab = new JPanel();
-
-
-
-        //Your Reviews Tab
-
-       /* UserProfile yourUserProfile = new UserProfile();
-        Review yourReview = new Review(0, "text",  yourUserProfile, "game name");
-        for (int counter = 0; counter < 10; counter++)
-        {
-            yourUserProfile.addReview(yourReview);
-        }
-        JPanel reviewTab = new JPanel();
-        reviewTab = ReviewView.reviewView(yourUserProfile);
-        homeTabbedWindow.add("Your Reviews",reviewTab);
-
-        */
-
 
         //The Entire Frame
 
@@ -219,7 +180,6 @@ public class HomeView {
         homeFrame.setVisible(true);
 
         //Sign In Button Handling
-        UserDatabase finalUserDatabase = userDatabase;
 
         signInButton.addActionListener(new ActionListener() {
             @Override
@@ -228,7 +188,7 @@ public class HomeView {
                 String passwordInput;
                 usernameInput = usernameField.getText();
                 passwordInput = String.valueOf(passwordField.getPassword());
-                currentUser = currentUser.logIn(usernameInput, passwordInput, finalUserDatabase);
+                currentUser = currentUser.logIn(usernameInput, passwordInput);
 
                 if (currentUser.getSignInStatus()) {
                     usernameText.setVisible(false);
@@ -250,7 +210,7 @@ public class HomeView {
                     }
                     homeTabbedWindow.add("Recommended Games", recGamesTab);
                     try {
-                        new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
+                        UserDatabase.exportDatabase();
                     } catch (IOException | ParserConfigurationException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -272,7 +232,7 @@ public class HomeView {
                 String passwordInput;
                 usernameInput = usernameField.getText();
                 passwordInput = String.valueOf(passwordField.getPassword());
-                for (UserProfile user : finalUserDatabase.getAllUsers()) {
+                for (UserProfile user : UserDatabase.getAllUsers()) {
                     if (usernameInput.equals(user.getUsername())) {
                         signInError.setText("Username is Taken");
                         dupeAccount = true;
@@ -280,10 +240,10 @@ public class HomeView {
                 }
                 if (!dupeAccount) {
                     UserProfile registeredUser = new UserProfile(usernameInput, passwordInput);
-                    finalUserDatabase.addUserProfile(registeredUser);
+                    UserDatabase.addUserProfile(registeredUser);
                     signInError.setText("");
                     try {
-                        new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
+                        UserDatabase.exportDatabase();
                     } catch (IOException | ParserConfigurationException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -297,7 +257,7 @@ public class HomeView {
                 usernameField.setText("");
                 passwordField.setText("");
                 signInError.setText("");
-                currentUser = finalUserDatabase.getDefaultUser();
+                currentUser = UserDatabase.getDefaultUser();
                 usernameText.setVisible(true);
                 usernameField.setVisible(true);
                 passwordText.setVisible(true);
@@ -308,13 +268,6 @@ public class HomeView {
                 currentUsername.setVisible(false);
                 signOutButton.setVisible(false);
                 removeUserProfileTabs();
-                try {
-                    new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                } catch (ParserConfigurationException ex) {
-                    throw new RuntimeException(ex);
-                }
                 homeTabbedWindow.remove(recGamesTab);
                 try {
                     recGamesTab = new RecommendedGames(currentUser).getRecommendView().view();
@@ -323,7 +276,7 @@ public class HomeView {
                 }
                 homeTabbedWindow.add("Recommended Games", recGamesTab);
                 try {
-                    new ExportUserProfile(fileName, finalUserDatabase.getAllUsers());
+                    UserDatabase.exportDatabase();
                 } catch (IOException | ParserConfigurationException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -352,7 +305,6 @@ public class HomeView {
      * Closes tabs that are related to the previously signed-in user
      */
     public static void removeUserProfileTabs(){
-        // homeTabbedWindow.remove("Your Reviews", reviewTab);
         homeTabbedWindow.remove(libraryTab);
         homeTabbedWindow.remove(reviewTab);
     }
@@ -361,7 +313,6 @@ public class HomeView {
      * Adds a Game View to the Tabbed Pane
      * Method is called when clicking a game in a GameCollection
      * if a game is already open, closes the last game tab
-     * @throws IOException
      */
 
     public static void openGameTab() throws IOException {
@@ -375,18 +326,22 @@ public class HomeView {
         gameOpened = true;
     }
 
+    /**
+     * Open Search results tab
+     */
     public static void openSearchResults() throws IOException {
         System.out.println(resultsOpened);
         if(resultsOpened) {
-            homeTabbedWindow.remove(resultsTab.view());
+            homeTabbedWindow.remove(resultsTab);
         }
 
-
         GameCollection searchResults = SearchView.getResults();
-        resultsTab = new GameCollectionView(searchResults);
-        homeTabbedWindow.add("Results", resultsTab.view());
+        GameCollectionView resultsCol = new GameCollectionView(searchResults);
+        resultsTab = resultsCol.view();
+        homeTabbedWindow.add("Results", resultsTab);
         resultsOpened = true;
     }
+
 
     public static void main(String[] args) throws IOException {
         homeView();

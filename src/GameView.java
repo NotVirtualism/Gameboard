@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -69,6 +70,11 @@ public class GameView {
                     btn.addActionListener(new ActionListener(){
                         public void actionPerformed(ActionEvent e){
                             c.addGame(game);
+                            try {
+                                UserDatabase.exportDatabase();
+                            } catch (IOException | ParserConfigurationException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
                     });
                     jpanel.add(btn);

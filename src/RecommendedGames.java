@@ -38,7 +38,7 @@ public class RecommendedGames {
                 }
             }
             for (int i = 0; i < 3; i++) {
-                Collections.sort(games, comp);
+                games.sort(comp);
                 favoriteTags.add(games.get(i).get(0));
             }
             Search recGamesSearch = new Search("", favoriteTags, allGames.getMasterList());
