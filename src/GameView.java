@@ -12,9 +12,24 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 public class GameView {
     private UserProfile user;
+
+    /**
+     * Constructs a game view from a Game g and UserProfile u.
+     * @param g is a Game.
+     * @param u is a User.
+     * @throws IOException
+     */
     public GameView(Game g, UserProfile u) throws IOException {
         gameView(g, u);
     }
+
+    /**
+     * Displays game information on the screen.
+     * @param game is a Game. The information from the game will be used to display the information.
+     * @param user is a User. Information from the User's library and reviews will be used in Action Events.
+     * @return a panel to be used in HomeView.
+     * @throws IOException
+     */
     public static JPanel gameView(Game game, UserProfile user) throws IOException {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -46,20 +61,21 @@ public class GameView {
 
         JButton addToLibraryButton = new JButton("Add to library");
 
-        // needs to have buttons to choose which collection
-        // buttons for each collection (does this in library view)
-        // Reviews: call game.getreviews, which returns list of all reviews attached to game
-        // For review in review list
-
         addToLibraryButton.addActionListener(new ActionListener() {
+
+            /**
+             * Displays a window with the User's game collections. The User
+             * selects a game collection to add the current game to.
+             * @param e the event to be processed
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 String chooseCollection = "Choose collection";
 
                 JLabel collectionLabel = new JLabel(chooseCollection);
                 JFrame libraryFrame = new JFrame();
-                JPanel jpanel = new JPanel();
-                jpanel.add(collectionLabel);
+                JPanel libraryPanel = new JPanel();
+                libraryPanel.add(collectionLabel);
 
                 Library l = user.getLibrary();
 
@@ -77,10 +93,10 @@ public class GameView {
                             }
                         }
                     });
-                    jpanel.add(btn);
+                    libraryPanel.add(btn);
                 }
 
-                libraryFrame.add(jpanel, BorderLayout.CENTER);
+                libraryFrame.add(libraryPanel, BorderLayout.CENTER);
                 libraryFrame.pack();
                 libraryFrame.setLocation(screenWidth / 2, screenHeight / 2);
                 libraryFrame.setVisible(true);
@@ -139,6 +155,13 @@ public class GameView {
         JButton addReviewButton = new JButton("Add review");
 
         addReviewButton.addActionListener(new ActionListener() {
+
+            /**
+             * Displays a window with a Combo Box that allows the User to choose
+             * a rating. Also displays a Text Field that allows the User to
+             * enter a review.
+             * @param e the event to be processed.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 String chooseRating = "Choose rating";
@@ -158,6 +181,12 @@ public class GameView {
                 JFrame ratingFrame = new JFrame();
                 ratingFrame.add(reviewPanel);
                 addReviewButton.addActionListener(new ActionListener() {
+                    /**
+                     * Gets the value from the Combo Box and the text from the
+                     * Text Field and uses them to create a review for the
+                     * current game by the User that is logged in.
+                     * @param e the event to be processed.
+                     */
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         // add selected rating to review

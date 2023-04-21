@@ -4,11 +4,21 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ReviewView {
+
+    /**
+     * Constructs a review view from a User Profile u.
+     * @param u a user.
+     */
     public ReviewView(UserProfile u)
     {
         reviewView(u);
     }
 
+    /**
+     * Displays the User's review information on the screen.
+     * @param u the logged in User.
+     * @return a panel to be used in HomeView.
+     */
     public static JPanel reviewView(UserProfile u)
     {
         JPanel panel = new JPanel();
