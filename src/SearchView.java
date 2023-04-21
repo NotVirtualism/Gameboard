@@ -14,6 +14,11 @@ public class SearchView{
     private JPanel panel = new JPanel();
 
 
+    /**
+     * This method creates the checkboxes in the UI for all the tags in the master tag list
+     * @param t is the String ArrayList of tag names
+     * @throws IOException if it is unable to find anything in the master tag list
+     */
     public SearchView(ArrayList<String> t) throws IOException {
         query = "";
         for(String s:t){
@@ -22,6 +27,10 @@ public class SearchView{
 
     }
 
+    /**
+     * Creates the panel displaying a GameCollection of results from the search function in Search class
+     * @return the panel in the HomeView
+     */
     public JScrollPane view(){
         //JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -29,7 +38,8 @@ public class SearchView{
         sb.setPreferredSize(new Dimension(500, 30));
         panel.add(sb);
         JButton searchButton = new JButton("Search");
-        searchButton.addActionListener(new ActionListener() {
+        /* Takes in input from the Search text bar and the checked tags once button is pressed*/
+        searchButton.addActionListener(new ActionListener() { 
             @Override
             public void actionPerformed(ActionEvent e) {
                 query = sb.getText();
@@ -40,11 +50,6 @@ public class SearchView{
                 }
                 Search searchResults = new Search(sb.getText(), searchTags, database.getMasterList());
                 results = searchResults.search();
-                try {
-                    HomeView.openSearchResults();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
             }
         });
         
@@ -55,7 +60,11 @@ public class SearchView{
         }
         return new JScrollPane(panel);
     }
-    
+
+    /**
+     * This method returns the GameCollection of results from the Search method
+     * @return GameCollection results 
+     */
     public static GameCollection getResults()
     {
         return results;
