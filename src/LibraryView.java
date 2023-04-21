@@ -6,6 +6,10 @@ import java.awt.event.ActionListener;
 public class LibraryView{
     private static Library gameLib;
 
+    /**
+     * Instantiates a new LibraryView
+     * @param l - The Library represented in the view
+     */
     public LibraryView(Library l){
         gameLib = l;
     }
