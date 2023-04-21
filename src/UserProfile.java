@@ -27,6 +27,8 @@ public class UserProfile {
              {
                 username = usernameInput;
                 password = passwordInput;
+                GameCollection allGames = new GameCollection("AllGames");
+                userLibrary.addGameCollection(allGames);
             }
     }
 

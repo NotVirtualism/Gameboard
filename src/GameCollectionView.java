@@ -55,6 +55,11 @@ public class GameCollectionView {
         return new JScrollPane(panel);
     }
 
+    /**
+     * Returns the game selected
+     * used to create the GameView of the button clicked
+     * @return
+     */
         public static Game getSelectedGame(){
             return selectedGame;
         }
