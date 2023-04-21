@@ -23,7 +23,15 @@ public class ExportUserProfile {
 
     private Library library;
 
-
+    /**
+     * This method takes in a list of users from inputted data and creates an output XML file that acts
+     * as a save function for all the data in a session. 
+     * @param outputFileName is the string name of the written XML file
+     * @param allUsers is the ArrayList of Users containing all of their data
+     * @throws FileNotFoundException if the inputted file name is not found
+     * @throws IOException if it is unable to parse the XML document
+     * @throws ParserConfigurationException if there's an exception in the configuration of the parse
+     */
     public ExportUserProfile(String outputFileName, ArrayList<UserProfile> allUsers) throws FileNotFoundException, IOException, ParserConfigurationException {
         File outFile = new File(outputFileName);
          DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
