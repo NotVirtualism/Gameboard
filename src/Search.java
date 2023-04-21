@@ -23,7 +23,7 @@ public class Search {
         for (int i = 0; i < searchPool.size(); i++)
         {
 
-            String tempGameName = searchPool.getGameByIndex(i).getTitle(); //converts to lowercase?
+            String tempGameName = searchPool.getGameByIndex(i).getTitle(); //converts to lowercase
             tempGameName = tempGameName.toLowerCase();
             searchString = searchString.toLowerCase();
             if (tempGameName.contains(searchString) && tempGameName.indexOf(searchString) == 0)
@@ -39,7 +39,10 @@ public class Search {
         }
 
         int tempResultsSize = results.size();
+        int selectedSize = selectedTags.size();
         ArrayList<String> tempGameTags = new ArrayList<String>();
+        Boolean[] checkArray = new Boolean[selectedSize];
+
         //Narrows down by tag
         boolean check = false;
         if (selectedTags.size() > 0 && results.size() > 0)
@@ -47,6 +50,12 @@ public class Search {
             Game tempGame;
             for (int i = 0; i < tempResultsSize; i++)
             {
+                int p = 0;
+                for (int g = 0; g < checkArray.length; g++)
+                {
+                    checkArray[g] = false;
+                }
+
                 tempGame = tempTagList.getGameByIndex(i);
                 tempGameTags = tempGame.getTags();
                 for (int j = 0; j < tempGameTags.size(); j++)
@@ -55,17 +64,20 @@ public class Search {
                     {
                         if (tempGameTags.get(j).equals(selectedTags.get(k)))
                         {
-                            check = true;
+                            checkArray[p] = true;
+                            p++;
                         }
                     }
                 }
 
-                if (check == false)
+                for (int n = 0; n < checkArray.length; n++)
                 {
-                    results.removeGame(tempGame);
+                    if (checkArray[n] == false)
+                    {
+                        results.removeGame(tempGame);
+                    }
                 }
 
-                check = false;
             }
         }
 
