@@ -9,6 +9,13 @@ public class Search {
     private GameCollection results = new GameCollection("Results");
     private String searchString;
     private GameCollection searchPool;
+    
+    /**
+     * This is the Search Constructor
+     * @param text is the String for the text inputted into Search bar
+     * @param tags are the selected tags in the checkboxes
+     * @param pool is the list that is being searched through, the masterlist
+     */
     public Search(String text, ArrayList<String> tags, GameCollection pool)
     {
         searchString = text; // Se
@@ -16,7 +23,11 @@ public class Search {
         searchPool = pool;
     }
 
-
+    /**
+     * This method takes in all the parameters from the constructor and narrows down the search in different
+     * ways depending on their inputs
+     * @return the GameCollection list of all the games narrowed down in the search
+     */
     public GameCollection search()
     {
         //Searches by string inputted
