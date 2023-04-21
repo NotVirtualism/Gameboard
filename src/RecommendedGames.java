@@ -12,7 +12,12 @@ public class RecommendedGames {
 
     static GameCollection recGames = new GameCollection("Recommended Games");
 
-
+    /**
+     * Creates a game collection of Recommended Games from user data
+     * Uses a comparator to find the most common tags in a user's library
+     * @param user
+     * @throws IOException
+     */
     public RecommendedGames(UserProfile user) throws IOException {
 
         GameDatabase allGames = new GameDatabase("bgg90games.xml");
@@ -48,6 +53,10 @@ public class RecommendedGames {
         }
     }
 
+    /**
+     * Returns the GameCollectionView created with the Recommended Games
+     * @return
+     */
     public static GameCollectionView getRecommendView() {
         GameCollectionView recGameView = new GameCollectionView(recGames);
         return recGameView;

@@ -70,6 +70,7 @@ public class GameView {
                     btn.addActionListener(new ActionListener(){
                         public void actionPerformed(ActionEvent e){
                             c.addGame(game);
+                            user.getLibrary().getGameCollectionByIndex(0).addGame(game);
                             try {
                                 UserDatabase.exportDatabase();
                             } catch (IOException | ParserConfigurationException ex) {

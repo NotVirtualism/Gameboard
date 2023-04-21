@@ -5,9 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-
-
-
 public class HomeView {
     private static final JTabbedPane homeTabbedWindow = new JTabbedPane();
     private static JPanel gameTab = new JPanel();
@@ -271,10 +268,11 @@ public class HomeView {
                 homeTabbedWindow.remove(recGamesTab);
                 try {
                     recGamesTab = new RecommendedGames(currentUser).getRecommendView().view();
+                    homeTabbedWindow.add("Recommended Games", recGamesTab);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                homeTabbedWindow.add("Recommended Games", recGamesTab);
+
                 try {
                     UserDatabase.exportDatabase();
                 } catch (IOException | ParserConfigurationException ex) {

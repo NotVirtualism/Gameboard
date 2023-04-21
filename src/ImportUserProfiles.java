@@ -11,6 +11,12 @@ public class ImportUserProfiles{
     private Document xmlDocumentTree;
     private ArrayList<UserProfile> userList = null;
 
+    /**
+     * Takes in a file name and parses the file for user information
+     * @param inputFileName
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public ImportUserProfiles (String inputFileName) throws FileNotFoundException, IOException{
         File inFile = new File(inputFileName);
 
@@ -31,6 +37,11 @@ public class ImportUserProfiles{
 
     }
 
+    /**
+     * Called by the game database to import the final list of users
+     * @return
+     * @throws IOException
+     */
     public ArrayList<UserProfile> retrieveUserList() throws IOException {
         if (userList == null){
             userList = new ArrayList<>();
@@ -89,8 +100,15 @@ public class ImportUserProfiles{
             }
             else if(current.getNodeName().equals("collection")){
                 collectionName = current.getAttributes().getNamedItem("value").getNodeValue();
-                loadedCollection = new GameCollection(collectionName);
-                loadedUser.getLibrary().addGameCollection(loadedCollection);
+
+                if(collectionName.equals("AllGames")) {
+                    loadedCollection = loadedUser.getLibrary().getGameCollectionByIndex(0);
+                }
+                else {
+                    loadedCollection = new GameCollection(collectionName);
+                    loadedUser.getLibrary().addGameCollection(loadedCollection);
+                }
+
             }
             else if(current.getNodeName().equals("game")){
                 collectionGame = current.getAttributes().getNamedItem("value").getNodeValue();
@@ -101,7 +119,6 @@ public class ImportUserProfiles{
             }
         }
     }
-
 
     private String getNodeAttribute(NodeList n, String nodeName, String att){
         Node current;
