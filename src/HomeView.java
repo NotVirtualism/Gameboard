@@ -13,7 +13,7 @@ public class HomeView {
     private static JPanel gameTab = new JPanel();
     private static JScrollPane recGamesTab = new JScrollPane();
     private static JScrollPane resultsTab = new JScrollPane();
-    private static JPanel libraryTab = new JPanel();
+    private static JScrollPane libraryTab = new JScrollPane();
     private static boolean gameOpened;
     private static boolean resultsOpened;
     private static UserProfile currentUser = new UserProfile();
