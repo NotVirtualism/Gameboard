@@ -41,22 +41,6 @@ public class GameView {
         panel.add(gameThumbnailLabel, c);
         gameThumbnailLabel.setBorder(new LineBorder(Color.black));
 
-        // Game Name
-
-        String gameNameHolder = game.getTitle();
-
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 0;
-        c.gridwidth = 8;
-        c.gridheight = 2;
-        c.weightx = 0.1;
-        c.weighty = 0.1;
-        c.gridy = 4;
-
-        JLabel gameNameLabel = new JLabel(gameNameHolder);
-        panel.add(gameNameLabel, c);
-        gameNameLabel.setBorder(new LineBorder(Color.black));
-
         // Library Button
 
         JButton addToLibraryButton = new JButton("Add to library");
@@ -95,6 +79,7 @@ public class GameView {
                 libraryFrame.setLocation(screenWidth / 2, screenHeight / 2);
                 libraryFrame.setVisible(true);
 
+
             }
         });
 
@@ -106,6 +91,42 @@ public class GameView {
         c.weighty = 0.1;
         c.gridy = 0;
         panel.add(addToLibraryButton, c);
+
+        // Game Reviews
+
+        ArrayList<Review> reviewsHolder = new ArrayList();
+        reviewsHolder = game.getReviews();
+
+        JPanel contentPane = new JPanel();
+
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 8;
+        c.gridwidth = 8;
+        c.gridheight = 10;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
+        c.gridy = 4;
+
+        JScrollPane scrollPane = new JScrollPane(contentPane);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        String gameReviewsHolder = "<html>REVIEWS" + "<br/>";
+        for (int counter = 0; counter < reviewsHolder.size(); counter++) {
+            if (counter == 0)
+            {
+                gameReviewsHolder = gameReviewsHolder + reviewsHolder.get(counter).toString();
+            }
+            else
+            {
+                gameReviewsHolder = gameReviewsHolder + "<br/>" + reviewsHolder.get(counter).toString();
+            }
+        }
+
+        JLabel gameReviewsLabel = new JLabel(gameReviewsHolder);
+        contentPane.add(gameReviewsLabel, c);
+        panel.add(scrollPane, c);
+        scrollPane.getViewport().setPreferredSize(new Dimension(40, 40));
+        gameReviewsLabel.setBorder(new LineBorder(Color.black));
 
         // Review Button
 
@@ -128,8 +149,8 @@ public class GameView {
 
                 JButton addReviewButton = new JButton("Click to add your review");
 
-                // Should this only work if the user is logged in?
-
+                JFrame ratingFrame = new JFrame();
+                ratingFrame.add(reviewPanel);
                 addReviewButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -141,15 +162,14 @@ public class GameView {
 
                         Review newReview = new Review(value, text, user, game.getTitle());
                         game.addReview(newReview);
+
+                        panel.revalidate();
+                        panel.repaint();
                     }
                     });
 
                 reviewPanel.add(addReviewButton);
 
-
-
-                JFrame ratingFrame = new JFrame();
-                ratingFrame.add(reviewPanel);
                 ratingFrame.setLocation(screenWidth / 2, screenHeight / 2);
                 ratingFrame.pack();
                 ratingFrame.setVisible(true);
@@ -214,7 +234,7 @@ public class GameView {
                 + gameAuthorsHolder + "<br/>" + "Publishers: " + gamePublishersHolder;
 
         c.fill = GridBagConstraints.BOTH;
-        c.gridx = 8;
+        c.gridx = 4;
         c.gridwidth = 8;
         c.gridheight = 10;
         c.weightx = 0.1;
@@ -225,45 +245,14 @@ public class GameView {
         panel.add(gameStatsLabel, c);
         gameStatsLabel.setBorder(new LineBorder(Color.black));
 
-        // Game Reviews
-
-        ArrayList<Review> reviewsHolder = new ArrayList();
-        reviewsHolder = game.getReviews();
-
-        JPanel contentPane = new JPanel();
-
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 12;
-        c.gridwidth = 8;
-        c.gridheight = 10;
-        c.weightx = 0.1;
-        c.weighty = 0.1;
-        c.gridy = 4;
-
-        JScrollPane scrollPane = new JScrollPane(contentPane);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        String gameReviewsHolder = "<html>REVIEWS" + "<br/>";
-        for (int counter = 0; counter < reviewsHolder.size(); counter++) {
-            if (counter == 0)
-            {
-                gameReviewsHolder = gameReviewsHolder + reviewsHolder.get(counter).toString();
-            }
-            else
-            {
-                gameReviewsHolder = gameReviewsHolder + "<br/>" + reviewsHolder.get(counter).toString();
-            }
-        }
-
-        JLabel gameReviewsLabel = new JLabel(gameReviewsHolder);
-        contentPane.add(gameReviewsLabel, c);
-        panel.add(scrollPane, c);
-        scrollPane.getViewport().setPreferredSize(new Dimension(40, 40));
-        gameReviewsLabel.setBorder(new LineBorder(Color.black));
-
         // Game Description
 
         String gameDescriptionHolder = game.getDescription();
+
+        if (game.getDescription() == "does not exist.")
+        {
+            gameDescriptionHolder = "no description";
+        }
 
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
@@ -276,15 +265,6 @@ public class GameView {
         JLabel gameDescriptionLabel = new JLabel(gameDescriptionHolder);
         panel.add(gameDescriptionLabel, c);
         gameDescriptionLabel.setBorder(new LineBorder(Color.black));
-
-        // The Entire Frame
-
- //       JFrame gameFrame = new JFrame();
- //       gameFrame.setBounds(0,0,1920,1080);
- //       gameFrame.getContentPane().add(panel, BorderLayout.CENTER);
- //       gameFrame.pack();
- //       gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
- //       gameFrame.setVisible(true);
 
         return panel;
     }
