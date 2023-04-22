@@ -50,6 +50,11 @@ public class SearchView{
                 }
                 Search searchResults = new Search(sb.getText(), searchTags, database.getMasterList());
                 results = searchResults.search();
+                try {
+                    HomeView.openSearchResults();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         
